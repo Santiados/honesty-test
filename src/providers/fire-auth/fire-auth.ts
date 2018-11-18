@@ -1,0 +1,60 @@
+import { Injectable } from '@angular/core';
+
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { User  } from '../../class/User';
+import { UserProvider } from '../user/user';
+
+/*
+  Generated class for the FireAuthProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+@Injectable()
+export class FireAuthProvider {
+
+  auxMailer = '@honesty.dev';
+  db = firebase;
+  usuariosRF = this.db.database().ref('users');
+  constructor(private _FIRE: AngularFireAuth) {
+    console.log('Hello FireAuthProvider Provider');
+  }
+
+
+  registerByEmaiAndPassword(user:any){
+    let email = user.username + this.auxMailer;
+    return new Promise((resolve,reject)=>{
+      this._FIRE.auth.createUserWithEmailAndPassword(email,user.password)
+      .then((result) => {
+        let current_user = this.db.auth().currentUser;
+        current_user.updateProfile({
+          displayName: user.username,
+          photoURL: ''
+        });
+        let id_created_user = current_user.uid;
+        let new_user = new User(id_created_user,user.username,current_user.email);
+        new_user.persist(this.usuariosRF);
+        resolve(new_user);
+      }).catch((err) => {
+        reject(err);
+      });
+    })
+  }
+
+  login(user){
+    let email = user.username + this.auxMailer;
+    return new Promise((resolve,reject)=>{
+      this._FIRE.auth.signInWithEmailAndPassword(email,user.password)
+      .then((result) => {
+        let current_user = this.db.auth().currentUser;
+        let user = new User();
+        user = user.getUserById(this.usuariosRF,current_user.uid);
+        resolve(user);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+}

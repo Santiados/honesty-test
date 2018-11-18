@@ -1,14 +1,33 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Hola {{user.username}}
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="getMyContacts()" >
+        <ion-icon name="search"></ion-icon>
+      </button> 
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-list>
+      <ion-item *ngIf="user.contacts == undefined" >
+        Honesty es más divertidos con amigos
+      </ion-item>
+      <!-- <ion-item-sliding #item *ngFor="let contact of user.contacts" >
+        <ion-item>
+          Item
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button (click)="favorite(item)">Favorite</button>
+          <button ion-button color="danger" (click)="share(item)">Share</button>
+        </ion-item-options>
+    
+        <ion-item-options side="right">
+          <button ion-button (click)="unread(item)">Unread</button>
+        </ion-item-options>
+      </ion-item-sliding> -->
+    </ion-list>
 </ion-content>
