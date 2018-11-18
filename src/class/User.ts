@@ -44,9 +44,10 @@ export class User {
         let aux = [];
         db.child(this.id_user).child('contacts').on('value',snap => {
             snap.forEach(element => {
-                aux.push(element);
+                aux.push(element.val());
             });
         });
+        console.log(aux)
         return aux;
     }
 }

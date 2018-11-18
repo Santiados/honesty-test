@@ -53,7 +53,9 @@ export class LogPage {
     console.log('Register Page');
     let regPage = this.modalCtrl.create(RegisterPage);
     regPage.onDidDismiss( data => {
-      this.user = data;
+      if(data){
+        this.user = data; 
+      }
     });
     regPage.present();
   }
