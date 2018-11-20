@@ -7,12 +7,24 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Contacts</ion-title>
+    <ion-title>Mis contactos</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngIf="user.contacts.length == 0">
+      Honesty es más divertidos con amigos
+    </ion-item>
+    <ion-item-sliding #item *ngFor="let contact of user.contacts" >
+      <ion-item (click)="createChatRoom(contact,user)" >
+        {{ contact.username }}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button (click)="unread(item)"></button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

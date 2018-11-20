@@ -9,6 +9,8 @@ import { HomePage } from '../pages/home/home';
 import { LogPage  } from '../pages/log/log';
 import { ChatPage } from '../pages/chat/chat';
 import { RegisterPage } from '../pages/register/register';
+import { ContactsPage } from '../pages/contacts/contacts';
+import { AddContactPage } from '../pages/add-contact/add-contact';
 
 import { SesionProvider } from '../providers/sesion/sesion';
 import { UserProvider } from '../providers/user/user';
@@ -26,7 +28,9 @@ import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
     HomePage,
     LogPage,
     ChatPage,
-    RegisterPage
+    RegisterPage,
+    ContactsPage,
+    AddContactPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,9 @@ import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
     HomePage,
     LogPage,
     ChatPage,
-    RegisterPage
+    RegisterPage,
+    ContactsPage,
+    AddContactPage
   ],
   providers: [
     StatusBar,

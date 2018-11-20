@@ -4,26 +4,17 @@
       Hola {{user.username}}
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="getMyContacts()" >
+      <button ion-button icon-only>
         <ion-icon name="search"></ion-icon>
-      </button> 
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-list>
-      <ion-item *ngIf="user.contacts.length == 0" >
-        Honesty es más divertidos con amigos
-      </ion-item>
-      <ion-item-sliding #item *ngFor="let contact of user.contacts" >
-        <ion-item>
-          {{ contact.username }}
-        </ion-item>
-    
-        <ion-item-options side="right">
-          <button ion-button (click)="unread(item)">Unread</button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
+  <ion-footer>
+    <button ion-button round margin-bottom margin-right bottom right id="new-chat" (click)="getMyContacts()">
+      <ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon>
+    </button>
+  </ion-footer>
 </ion-content>

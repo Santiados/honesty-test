@@ -6,12 +6,26 @@ export class User {
     creation: string;
 
     constructor(id = null, username = null, email = null) {
-        if(id && username && email){
+        if(id){
             this.id_user = id;
+            this.email = email;
+        }
+        if(username){
             this.username = username;
+        }
+        if(email){
             this.email = email;
         }
         this.contacts = [];
+    }
+
+
+    setId(id){
+        this.id_user = id;
+    }
+
+    getId(){
+        return this.id_user;
     }
 
     persist(db) {
@@ -44,7 +58,9 @@ export class User {
         let aux = [];
         db.child(this.id_user).child('contacts').on('value',snap => {
             snap.forEach(element => {
-                aux.push(element.val());
+                let el = element.val();
+                let user = new User(el.id_user,el.username);
+                aux.push(el);
             });
         });
         console.log(aux)

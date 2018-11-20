@@ -8,18 +8,32 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
+import { User  } from  '../../class/User';
+import { ChatPage } from '../../pages/chat/chat';
+
 @IonicPage()
 @Component({
   selector: 'page-contacts',
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  user: User;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+    ) {
+      this.user = this.navParams.get('user');
+     }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
+  }
+
+  createChatRoom(user:User,contact:User){
+    this.navCtrl.push(ChatPage,{
+      user: user,
+      contact: contact
+    });
   }
 
 }

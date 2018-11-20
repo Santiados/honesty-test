@@ -7,12 +7,31 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>chatPage</ion-title>
+    <ion-title>{{ contact.username  }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <div id="chatMsg">
+		<div *ngFor="let msg of _MESSAGES" [class]="msg.username == username ? 'msg-right msg':'msg-left msg'">
+			<p>{{msg.content}}</p>
+		</div>
+	</div>
 </ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" placeholder="Escribe algo" [(ngModel)]="msgTemp" name="msgTemp"></ion-input>
+      </ion-col>
+      <ion-col col-2 (click)="sendMsg()">
+      	<button ion-button icon-only >
+	    	<ion-icon name="send" end></ion-icon>
+	    </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
