@@ -1,3 +1,5 @@
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+
 export class Session {
     id: string;
     tipo: number;
@@ -21,6 +23,10 @@ export class Session {
             this.username_user2 = username_user2;
         }
 
+        if(last_msg){
+            this.last_msg = last_msg;
+        }
+
         this.msgs = [];
     }
 
@@ -38,17 +44,17 @@ export class Session {
         this.id_user2 = id;
     }
 
-    protected getSessionsByIdUser(db, id_user) {
-        let aux = [];
-        db.on('value', snap => {
-            snap.forEach(element => {
-                if (element.hasChild(id_user)) {
-                    aux.push(element);
-                }
-            });
-        });
-        return aux;
+    getLast_Msg(){
+        return this.last_msg;
     }
+
+    setLast_Msg(last_msg){
+        this.last_msg = last_msg;
+    }
+
+
+
+    
     persist(db) {
         return new Promise((resolve, reject) => {
             if (!this.creation) {

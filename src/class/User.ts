@@ -5,7 +5,7 @@ export class User {
     contacts: Array<User>;
     creation: string;
 
-    constructor(id = null, username = null, email = null) {
+    constructor(id = null, username = null, email = null, creation = null) {
         if(id){
             this.id_user = id;
             this.email = email;
@@ -15,6 +15,9 @@ export class User {
         }
         if(email){
             this.email = email;
+        }
+        if(creation){
+            this.creation = new Date(creation).toLocaleString();
         }
         this.contacts = [];
     }
@@ -26,6 +29,21 @@ export class User {
 
     getId(){
         return this.id_user;
+    }
+
+    setCreation(date){
+        this.creation = date;
+    }
+
+    getCreation(){
+        return this.creation;
+    }
+
+    getContacts(){
+        return this.contacts;
+    }
+    setContacts(contacts){
+        this.contacts = contacts;
     }
 
     persist(db) {
@@ -42,28 +60,23 @@ export class User {
     }
 
     getUserById(db,id_user) {
-        let user = new User();
+        let aux;
         db.child(id_user).on('value',snap => {
-           snap = snap.val();
-           user.id_user = snap.id_user;
-           user.username = snap.username,
-           user.email = snap.email,
-           user.contacts = user.getContacts(db),
-           user.creation = snap.creation
+        aux = snap.val();
+        this.setContacts(this.getContactsById(db));
+        this.setCreation(aux.creation);
         });
-        return user;
     }
 
-    getContacts(db){
+    getContactsById(db){
         let aux = [];
         db.child(this.id_user).child('contacts').on('value',snap => {
             snap.forEach(element => {
                 let el = element.val();
                 let user = new User(el.id_user,el.username);
-                aux.push(el);
+                aux.push(user);
             });
         });
-        console.log(aux)
-        return aux;
+        this.setContacts(aux);
     }
 }

@@ -12,9 +12,26 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-footer>
-    <button ion-button round margin-bottom margin-right bottom right id="new-chat" (click)="getMyContacts()">
-      <ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon>
-    </button>
-  </ion-footer>
+  <ion-item *ngIf="_SESSIONS.length == 0" >
+    No tienes conversaciones recientes
+  </ion-item>
+  <ion-list *ngIf="_SESSIONS.length > 0" >
+    <h6>Estas son tus conversaciones recientes</h6>
+    <ion-item *ngFor="let session of _SESSIONS"  (click)="goSession(session)" >
+        <ion-avatar item-start>
+            <img src="https://api.adorable.io/avatars/75/{{session.id}}">
+          </ion-avatar>
+          <h2>
+            {{session.username_user1 == user.username ? session.username_user2: session.username_user1}}
+          </h2>
+          <p>
+            {{ session.last_msg.content}}
+          </p>
+    </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <button ion-button round end id="new-chat" (click)="getMyContacts()">
+    <ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon>
+  </button>
+</ion-footer>

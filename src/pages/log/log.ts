@@ -7,6 +7,7 @@ import { HomePage } from '../../pages/home/home';
 import { SesionProvider } from '../../providers/sesion/sesion';
 import { UserProvider } from '../../providers/user/user';
 import { FireAuthProvider } from '../../providers/fire-auth/fire-auth';
+import { User } from '../../class/User';
 
 /**
  * Generated class for the LogPage page.
@@ -40,7 +41,7 @@ export class LogPage {
 
   getUserByCredentials(){
     this.userService.getUserByCredentials(this.user)
-    .then((result) => {
+    .then((result:User) => {
       this.navCtrl.push(HomePage,{
         data: result
       });

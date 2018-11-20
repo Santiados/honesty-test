@@ -23,7 +23,7 @@ import { Message } from '../../class/Message';
 export class ChatPage {
   user: User;
   contact: User;
-  _SESSION;
+  _SESSION: Session;
   _MESSAGES: Message[] = [];
   msgTemp: string;
   constructor(
@@ -32,8 +32,12 @@ export class ChatPage {
     private msgsService: MessageProvider,
     private sessionService: SesionProvider
   ) {
-    this.user = this.navParams.get('user');
-    this.contact = this.navParams.get('contact');
+    if (!this.navParams.get('session')) {
+      this.user = this.navParams.get('user');
+      this.contact = this.navParams.get('contact');
+    } else {
+      this._SESSION = this.navParams.get('session');
+    }
   }
 
   ionViewDidLoad() {
@@ -41,9 +45,9 @@ export class ChatPage {
   }
 
   sendMsg() {
-    if (this.msgTemp.trim() != ''){
+    if (this.msgTemp.trim() != '') {
       if (!this._SESSION) {
-        this._SESSION = new Session(null, this.user.id_user,this.user.username, this.contact.id_user,this.contact.username);
+        this._SESSION = new Session(null, this.user.id_user, this.user.username, this.contact.id_user, this.contact.username);
       }
       this.sessionService.persist(this._SESSION)
         .then((result: Session) => {

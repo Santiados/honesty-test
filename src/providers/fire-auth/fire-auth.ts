@@ -48,8 +48,8 @@ export class FireAuthProvider {
       this._FIRE.auth.signInWithEmailAndPassword(email,user.password)
       .then((result) => {
         let current_user = this.db.auth().currentUser;
-        let user = new User();
-        user = user.getUserById(this.usuariosRF,current_user.uid);
+        let user = new User(current_user.uid,current_user.displayName,current_user.email,current_user.metadata.creationTime);
+        user.getContactsById(this.usuariosRF);
         resolve(user);
       }).catch((err) => {
         reject(err)

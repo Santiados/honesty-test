@@ -27,13 +27,31 @@ export class Message {
     getId() {
         return this.id;
     }
-
-    getMsgByIdUser(db) {
-
+    getContent(){
+        return this.content;
     }
-    getMsgByIdSession(db) {
-
+    setContent(content){
+        this.content = content
     }
+    getId_User(){
+        return this.id_user;
+    }
+    setId_User(id_user){
+        this.id_user = id_user;
+    }
+    getId_Session(){
+        return this.id_session;
+    }
+    setId_Session(id_session){
+        this.id_session = id_session;
+    }
+    getCreation(){
+        return this.creation;
+    }
+    setCreation(creation){
+        this.creation = creation;
+    }
+
 
     persist(db) {
         return new Promise((resolve, reject) => {
@@ -52,6 +70,19 @@ export class Message {
             } else {
                 // Modificar
             }
+        });
+    }
+
+    completeMe(db){
+        let aux: Message;
+        db.child(this.id).on('value',snap =>{
+            let op = snap.val();
+            this.setContent(op.content);
+            this.setCreation(op.creation);
+            this.setId_Session(op.id_session);
+            this.setId_User(op.id_user);
+        }, error =>{
+
         });
     }
 
