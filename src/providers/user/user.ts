@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { FireAuthProvider } from  '../../providers/fire-auth/fire-auth';
 
+import { User  } from '../../class/User';
+import * as firebase from 'firebase/app';
+
 /*
   Generated class for the UserProvider provider.
 
@@ -13,6 +16,9 @@ import { FireAuthProvider } from  '../../providers/fire-auth/fire-auth';
 
 @Injectable()
 export class UserProvider {
+  user: User = User.prototype;
+  firebase =  firebase;
+  userRF = firebase.database().ref('users');
   constructor(private _FireAuth: FireAuthProvider) {
     console.log('Hello UserProvider Provider');
   }
@@ -29,14 +35,11 @@ export class UserProvider {
   }
 
   getUserByCredentials(user){
-    return new Promise((resolve,reject) => {
-      this._FireAuth.login(user)
-      .then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
+    return this._FireAuth.login(user);
+  }
+
+  getUserById(id_user){
+    return this.user.getUserById(this.userRF,id_user);
   }
 
 }

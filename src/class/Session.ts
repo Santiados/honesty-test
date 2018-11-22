@@ -23,7 +23,7 @@ export class Session {
             this.username_user2 = username_user2;
         }
 
-        if(last_msg){
+        if (last_msg) {
             this.last_msg = last_msg;
         }
 
@@ -44,20 +44,20 @@ export class Session {
         this.id_user2 = id;
     }
 
-    getLast_Msg(){
+    getLast_Msg() {
         return this.last_msg;
     }
 
-    setLast_Msg(last_msg){
+    setLast_Msg(last_msg) {
         this.last_msg = last_msg;
     }
 
 
 
-    
+
     persist(db) {
         return new Promise((resolve, reject) => {
-            if (!this.creation) {
+            if (!this.id) {
                 this.creation = new Date().toLocaleString();
                 db.push(this);
                 db.on('child_added', snap => {
@@ -66,12 +66,16 @@ export class Session {
                         id: snap.key
                     }, error => {
                         if (error) reject(error);
-                        else resolve(this);
                     });
                 });
             } else {
-
+                db.child(this.id).update({
+                    last_msg: this.last_msg
+                }, error =>{
+                    reject(error)
+                });
             }
+            resolve('ok');
         });
     }
 
@@ -81,5 +85,23 @@ export class Session {
 
     deleteUserFromSession() {
 
+    }
+
+    getSessionsByIdUser(db, id_user) {
+        let aux = [];
+        return new Promise((resolve, reject) => {
+            db.on('value', snap => {
+                snap.forEach(element => {
+                    if (element.val().id_user1 == id_user || element.val().id_user2 == id_user) {
+                        let el = element.val();
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg);
+                        aux.unshift(session);
+                    }
+                });
+                resolve(aux);
+            }, error => {
+                reject(error);
+            });
+        });
     }
 }

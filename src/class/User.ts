@@ -6,44 +6,57 @@ export class User {
     creation: string;
 
     constructor(id = null, username = null, email = null, creation = null) {
-        if(id){
+        if (id) {
             this.id_user = id;
             this.email = email;
         }
-        if(username){
+        if (username) {
             this.username = username;
         }
-        if(email){
+        if (email) {
             this.email = email;
         }
-        if(creation){
+        if (creation) {
             this.creation = new Date(creation).toLocaleString();
         }
         this.contacts = [];
     }
 
 
-    setId(id){
+    setId(id) {
         this.id_user = id;
     }
 
-    getId(){
+    getId() {
         return this.id_user;
     }
 
-    setCreation(date){
+    setCreation(date) {
         this.creation = date;
     }
 
-    getCreation(){
+    getCreation() {
         return this.creation;
     }
 
-    getContacts(){
+    getContacts() {
         return this.contacts;
     }
-    setContacts(contacts){
+    setContacts(contacts) {
         this.contacts = contacts;
+    }
+    getEmail() {
+        return this.email;
+    }
+    setEmail(email) {
+        this.email = email;
+    }
+
+    getUsername() {
+        return this.username;
+    }
+    setUsername(username) {
+        this.username = username;
     }
 
     persist(db) {
@@ -59,21 +72,24 @@ export class User {
         }
     }
 
-    getUserById(db,id_user) {
-        let aux;
-        db.child(id_user).on('value',snap => {
-        aux = snap.val();
-        this.setContacts(this.getContactsById(db));
-        this.setCreation(aux.creation);
+    getUserById(db, id_user) {
+        return new Promise((resolve, reject) => {
+            db.child(id_user).on('value', snap => {
+                this.setId(snap.val().id_user);
+                this.setCreation(snap.val().creation);
+                this.setEmail(snap.val().email);
+                this.setUsername(snap.val().username);
+                resolve(this);
+            });
         });
     }
 
-    getContactsById(db){
+    getContactsById(db) {
         let aux = [];
-        db.child(this.id_user).child('contacts').on('value',snap => {
+        db.child(this.id_user).child('contacts').on('value', snap => {
             snap.forEach(element => {
                 let el = element.val();
-                let user = new User(el.id_user,el.username);
+                let user = new User(el.id_user, el.username);
                 aux.push(user);
             });
         });

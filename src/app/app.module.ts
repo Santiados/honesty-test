@@ -21,6 +21,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
     SesionProvider,
     UserProvider,
     MessageProvider,
-    FireAuthProvider
+    FireAuthProvider,
+    AngularFirestore
   ]
 })
 export class AppModule {}

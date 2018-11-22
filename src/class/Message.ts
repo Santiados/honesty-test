@@ -27,35 +27,35 @@ export class Message {
     getId() {
         return this.id;
     }
-    getContent(){
+    getContent() {
         return this.content;
     }
-    setContent(content){
+    setContent(content) {
         this.content = content
     }
-    getId_User(){
+    getId_User() {
         return this.id_user;
     }
-    setId_User(id_user){
+    setId_User(id_user) {
         this.id_user = id_user;
     }
-    getId_Session(){
+    getId_Session() {
         return this.id_session;
     }
-    setId_Session(id_session){
+    setId_Session(id_session) {
         this.id_session = id_session;
     }
-    getCreation(){
+    getCreation() {
         return this.creation;
     }
-    setCreation(creation){
+    setCreation(creation) {
         this.creation = creation;
     }
 
 
     persist(db) {
         return new Promise((resolve, reject) => {
-            if (!this.creation) {
+            if (!this.id) {
                 this.creation = new Date().toLocaleString();
                 db.push(this);
                 db.on('child_added', snap => {
@@ -64,25 +64,35 @@ export class Message {
                         id: snap.key
                     }, error => {
                         if (error) reject(error);
-                        else resolve(this);
                     });
                 });
-            } else {
-                // Modificar
             }
+            resolve('ok');
         });
     }
 
-    completeMe(db){
-        let aux: Message;
-        db.child(this.id).on('value',snap =>{
+    completeMe(db) {
+        db.child(this.id).on('value', snap => {
             let op = snap.val();
             this.setContent(op.content);
             this.setCreation(op.creation);
             this.setId_Session(op.id_session);
             this.setId_User(op.id_user);
-        }, error =>{
+        }, error => {
 
+        });
+    }
+    getMessagesByIdSession(db, id_session) {
+        return new Promise((resolve, reject) => {
+            let aux = [];
+            db.on('value', snap => {
+                snap.forEach(element => {
+                    if (element.val().id_session == id_session) {
+                        aux.push(element.val());
+                    }
+                });
+                resolve(aux);
+            });
         });
     }
 

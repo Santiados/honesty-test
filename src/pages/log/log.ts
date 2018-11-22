@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
 
 import { RegisterPage } from '../../pages/register/register';
 import { HomePage } from '../../pages/home/home';
 
-import { SesionProvider } from '../../providers/sesion/sesion';
 import { UserProvider } from '../../providers/user/user';
-import { FireAuthProvider } from '../../providers/fire-auth/fire-auth';
 import { User } from '../../class/User';
 
 /**
@@ -23,42 +21,51 @@ import { User } from '../../class/User';
 })
 export class LogPage {
 
-  user =  {
-    username:'',
-    password:''
+  user = {
+    username: '',
+    password: ''
   }
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
+    private toasCtrl: ToastController,
     private modalCtrl: ModalController,
     private userService: UserProvider
-    ) {
+  ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LogPage');
   }
 
-  getUserByCredentials(){
+  getUserByCredentials() {
     this.userService.getUserByCredentials(this.user)
-    .then((result:User) => {
-      this.navCtrl.push(HomePage,{
-        data: result
+      .then((result: User) => {
+        this.navCtrl.push(HomePage, {
+          data: result
+        });
+      }).catch((err) => {
+        this.showNot(err.message);
       });
-    }).catch((err) => {
-      console.log(err)
-    });
   }
 
-  getRegisterPage(){
+  getRegisterPage() {
     console.log('Register Page');
     let regPage = this.modalCtrl.create(RegisterPage);
-    regPage.onDidDismiss( data => {
-      if(data){
-        this.user = data; 
+    regPage.onDidDismiss(data => {
+      if (data) {
+        this.user = data;
       }
     });
     regPage.present();
+  }
+
+  showNot(msg) {
+    let toas = this.toasCtrl.create({
+      message: msg,
+      duration: 2000
+    });
+    toas.present();
   }
 
 }

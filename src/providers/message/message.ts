@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
   and Angular DI.
   
 */
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 
 import { Message } from '../../class/Message';
 @Injectable()
 export class MessageProvider {
-
+  msg: Message = Message.prototype;
   firebase = firebase;
   msgRF = this.firebase.database().ref('msgs');
   constructor() {
@@ -21,14 +21,11 @@ export class MessageProvider {
 
 
   persist(msg:Message) {
-    return new Promise((resolve, reject) => {
-      msg.persist(this.msgRF)
-      .then((result) => {
-        resolve(result)
-      }).catch((err) => {
-        reject(err);
-      });
-    });
+    return msg.persist(this.msgRF);
+  }
+
+  getMessagesByIdSession(id_session){
+    return this.msg.getMessagesByIdSession(this.msgRF,id_session);
   }
 
 }
