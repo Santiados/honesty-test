@@ -3,23 +3,29 @@ page-chat {
 		display: flex;
 		flex-direction: column;
 		.msg {
-			background: #1AC126;
 			display: flex;
 			flex-direction: column;
 			margin: 1px 0;
 			color:white;
 			padding: 1% 5%;
+			position: relative;
 			p {
 				margin: 2px 0;
+			}
+			span {
+				position: absolute;
+				opacity: 0;
 			}
 		}
 
 		.msg-left {
+			background: #1AC126;
 			align-self: flex-start;
 			border-radius: 0px 5px 5px 5px;
 		}
 
 		.msg-right {
+			background: rgb(29, 161, 194);
 			align-self: flex-end;
 			border-radius: 5px 0px 5px 5px;
 		}

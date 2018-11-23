@@ -31,7 +31,7 @@ export class ChatPage {
   @ViewChild(Content) content: Content;
   user: User = new User();
   contact: User = new User();
-  _SESSION: Session;
+  _SESSION: Session = new Session();
   _MESSAGES: Message[] = [];
   msgTemp: string;
   msgsRF = firebase.database().ref('msgs');
@@ -46,27 +46,27 @@ export class ChatPage {
   ) {
     if (!this.navParams.get('session')) {
       this.user = this.navParams.get('user');
+      console.log(this.user)
       this.contact = this.navParams.get('contact');
     } else {
       this._SESSION = this.navParams.get('session');
       this.user = this.navParams.get('user');
       this.contact = this.navParams.get('contact');
     }
-    this.msgsRF.on('value', snap => {
-      this._MESSAGES = [];
-      snap.forEach(childSnapshot => {
-          let item = childSnapshot.val();
-          item.key = childSnapshot.key;
-          this._MESSAGES.push(item);
-      });
 
-      this.db.object('msgs').valueChanges().subscribe( data =>{
-        console.log(data)
-      });
-      
-      setTimeout(()=>{
+    this.db.object('msgs').valueChanges().subscribe(msgs => {
+      this._MESSAGES = [];
+      if (this._SESSION.id) {
+        for (let d in msgs) {
+          if (msgs[d].id_session == this._SESSION.getId()) {
+            let msg = new Message(msgs[d].id, msgs[d].content, msgs[d].id_user, msgs[d].id_session, msgs[d].creation);
+            this._MESSAGES.push(msg);
+          }
+        }
+      }
+      setTimeout(() => {
         this.content.scrollToBottom(300);
-      },500);
+      }, 500);
     });
   }
 
@@ -76,9 +76,9 @@ export class ChatPage {
 
   setMsgs(data) {
     let aux = [];
-      data.forEach(element => {
-        aux.push(element.val());
-      });
+    data.forEach(element => {
+      aux.push(element.val());
+    });
     return aux;
   }
 
@@ -95,16 +95,13 @@ export class ChatPage {
           let new_msg = new Message(null, this.msgTemp, this.user.id_user, this._SESSION.id);
           this.msgsService.persist(new_msg)
             .then((result) => {
-              this.msgTemp = ' ';
+              this.msgTemp = '';
             }).catch((err) => {
               this.showNot(err.message);
             });
         }).catch((err) => {
           this.showNot(err.message);
         });
-
-
-
     }
   }
 
@@ -117,15 +114,3 @@ export class ChatPage {
   }
 
 }
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-      let item = childSnapshot.val();
-      item.key = childSnapshot.key;
-      returnArr.push(item);
-  });
-
-  return returnArr;
-};

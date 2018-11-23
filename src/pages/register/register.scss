@@ -1,3 +1,18 @@
 page-register {
+    .img-welcome {
+        display: flex;
+        justify-content: center;
+        margin: 2pc 0;
+    }
 
+    #opt-butts {
+        display: flex;
+        justify-content: center;
+        padding: 1pc 2pc;
+
+        button {
+            padding: 1.5pc 1pc;
+            background: rgb(16, 169, 207);
+        }
+    }
 }

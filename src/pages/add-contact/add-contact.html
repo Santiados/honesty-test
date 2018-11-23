@@ -6,9 +6,14 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>addContact</ion-title>
-  </ion-navbar>
+  <ion-toolbar color="add-contact">
+    <ion-title>Nuevo contacto</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="close()" >
+        <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 

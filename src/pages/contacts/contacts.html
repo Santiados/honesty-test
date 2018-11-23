@@ -6,8 +6,15 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Mis contactos</ion-title>
+  <ion-navbar color="contacts">
+    <ion-toolbar >
+      <ion-title>Mis contactos</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="addContact()">
+          <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
   </ion-navbar>
 
 </ion-header>
@@ -16,10 +23,10 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngIf="user.contacts.length == 0">
-      Honesty es más divertidos con amigos
+      Honesty es más divertido con amigos
     </ion-item>
-    <ion-item-sliding #item *ngFor="let contact of user.contacts" >
-      <ion-item (click)="createChatRoom(contact,user)" >
+    <ion-item-sliding #item *ngFor="let contact of user.contacts">
+      <ion-item (click)="createChatRoom(user,contact)">
         {{ contact.username }}
       </ion-item>
       <ion-item-options side="right">

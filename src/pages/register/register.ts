@@ -54,4 +54,8 @@ export class RegisterPage {
       console.log(JSON.stringify(msg));
     }
   }
+
+  close(){
+    this.viewCtrl.dismiss();
+  }
 }

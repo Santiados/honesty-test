@@ -6,22 +6,35 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-toolbar color="secondary">
+    <ion-buttons right>
+      <button ion-button round color="light" (click)="close()" >
+        <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>
+      </button>  
+    </ion-buttons>
     <ion-title>Registrate</ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
 
+
 <ion-content padding>
     <form (ngSubmit)="registrarUsuario()" >
-      <h2>Introduce los datos para tu registro:</h2>
+      <h3 text-center>Hola!</h3>
+      <ion-avatar class="img-welcome">
+        <img src="assets/imgs/chat.png" text-center>
+      </ion-avatar>
+      <p text-center>Esto Honesty Chat, aqui podrás compartir mensajes de forma instantánea y segura</p>
+      <h6 text-center>Para poder empezar a chatear con gente de todo el mundo, primero debes registrarte</h6>
       <ion-item>
         <ion-input type="" placeholder="Ejemplo: Looper" [(ngModel)]="user.username" name="username"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.password" name="password"></ion-input>
       </ion-item>
-      <button ion-button block>Registrarme</button>
+      <ion-buttons id="opt-butts">
+          <button ion-button round>Registrarme</button>
+      </ion-buttons>
     </form>
   </ion-content>

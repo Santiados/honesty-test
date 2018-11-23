@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component,ViewChild } from '@angular/core';
+import { NavController, NavParams, ToastController, Content } from 'ionic-angular';
 
 import { SesionProvider } from '../../providers/sesion/sesion';
 import { UserProvider } from '../../providers/user/user';
@@ -13,12 +13,14 @@ import { User } from '../../class/User';
 import { Message } from '../../class/Message';
 
 import * as firebase from 'firebase/app';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  @ViewChild(Content) content: Content;
   user: User;
   _SESSIONS = [];
   sessionsRF = firebase.database().ref('sessions');
@@ -28,12 +30,21 @@ export class HomePage {
     private toasCtrl: ToastController,
     private sessionService: SesionProvider,
     private userService: UserProvider,
-    private msgService: MessageProvider
+    private msgService: MessageProvider,
+    private db: AngularFireDatabase
   ) {
     this.user = this.paramCtrl.data.data;
-    this.sessionsRF.on('value', snap => {
+    this.db.object('sessions').valueChanges().subscribe( ses =>{
       this._SESSIONS = [];
-      this._SESSIONS = snapshotToArray(this.user.id_user,snap);
+      for(let d in ses){
+        if(ses[d].id_user1 == this.user.getId() || ses[d].id_user2 == this.user.getId()){
+          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg);
+          this._SESSIONS.push(session);
+        } 
+      }
+      setTimeout(()=>{
+        this.content.scrollToBottom(300);
+      },500);
     });
   }
 
@@ -85,17 +96,4 @@ export class HomePage {
   }
 
 }
-
-export const snapshotToArray = (id_user,snapshot) => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-    if (childSnapshot.val().id_user1 == id_user || childSnapshot.val().id_user2 == id_user) {
-      let item = childSnapshot.val();
-      returnArr.push(item);
-    }
-  });
-
-  return returnArr;
-};
 

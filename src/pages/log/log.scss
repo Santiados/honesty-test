@@ -1,3 +1,44 @@
 page-log {
+    .img-welcome {
+        display: flex;
+        justify-content: center;
+        margin: 2pc 0;
 
+        img {
+            -moz-transform: skewX(-10deg) skewY(0deg);
+            -webkit-transform: skewX(-10deg) skewY(0deg);
+            -o-transform: skewX(-10deg) skewY(0deg);
+            -ms-transform: skewX(-10deg) skewY(0deg);
+            transform: skewX(-10deg) skewY(0deg);
+            width: 14pc;
+        }
+    }
+
+    #opt-butts {
+        display: flex;
+        justify-content: center;
+        padding: 1pc 2pc;
+
+        button {
+            padding: 1.5pc 1pc;
+            width: 7pc;
+            color: white;
+            transition: all 500ms ease;
+
+            &:hover {
+                background: rgb(60, 175, 37);
+                box-shadow: 2px 2px 3px 0px grey;
+            }
+        }
+
+        #login {
+            border-radius: 64px 0 0 64px;
+            background: rgb(44, 201, 30);
+        }
+
+        #reg {
+            border-radius: 0 64px 64px 0;
+            background: rgb(16, 169, 207);
+        }
+    }
 }

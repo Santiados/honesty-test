@@ -5,7 +5,7 @@ export class Message {
     id_session: string;
     creation: string;
 
-    constructor(id = null, content = null, id_user = null, id_session = null) {
+    constructor(id = null, content = null, id_user = null, id_session = null,creation = null) {
         if (id) {
             this.id = id;
         }
@@ -17,6 +17,9 @@ export class Message {
         }
         if (id_session) {
             this.id_session = id_session;
+        }
+        if(creation){
+            this.creation = creation;
         }
     }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the AddContactPage page.
@@ -15,11 +15,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AddContactPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private viewCtrl: ViewController
+    ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddContactPage');
+  }
+
+  close(){
+    this.viewCtrl.dismiss();
   }
 
 }
