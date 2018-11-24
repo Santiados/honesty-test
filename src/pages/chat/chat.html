@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <div id="chatMsg">
-    <div *ngFor="let msg of _MESSAGES"  [class]="msg.id_user == user.id_user ? 'msg-right msg':'msg-left msg'">
+    <div *ngFor="let msg of _MESSAGES"  [class]="msg.id_user == user.id ? 'msg-right msg':'msg-left msg'">
       <p>{{msg.content}}</p>
       <span>{{msg.creation}}</span>
     </div>

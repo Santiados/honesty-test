@@ -45,10 +45,11 @@ export class ChatPage {
     private readonly db: AngularFireDatabase
   ) {
     if (!this.navParams.get('session')) {
+      console.log('no session')
       this.user = this.navParams.get('user');
-      console.log(this.user)
       this.contact = this.navParams.get('contact');
     } else {
+      console.log('si session')
       this._SESSION = this.navParams.get('session');
       this.user = this.navParams.get('user');
       this.contact = this.navParams.get('contact');
@@ -59,7 +60,7 @@ export class ChatPage {
       if (this._SESSION.id) {
         for (let d in msgs) {
           if (msgs[d].id_session == this._SESSION.getId()) {
-            let msg = new Message(msgs[d].id, msgs[d].content, msgs[d].getId(), msgs[d].id_session, msgs[d].creation);
+            let msg = new Message(msgs[d].id, msgs[d].content, msgs[d].id_user, msgs[d].id_session, msgs[d].creation);
             this._MESSAGES.push(msg);
           }
         }
@@ -83,6 +84,7 @@ export class ChatPage {
   }
 
   sendMsg() {
+    console.log(this._SESSION)
     if (this.msgTemp.trim() != '') {
       if (!this._SESSION.id) {
         this._SESSION = new Session(null, this.user.getId(), this.user.getUsername(), this.contact.getId(), this.contact.getUsername());

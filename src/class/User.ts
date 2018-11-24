@@ -100,7 +100,7 @@ export class User {
     getUserById(db, id_user) {
         return new Promise((resolve, reject) => {
             db.child(id_user).on('value', snap => {
-                this.setId(snap.val().id_user);
+                this.setId(snap.val().id);
                 this.setCreation(new Date(snap.val().creation));
                 this.setEmail(snap.val().email);
                 this.setUsername(snap.val().username);

@@ -35,6 +35,7 @@ export class ContactsPage {
   }
 
   createChatRoom(user:User,contact:User){
+    console.log(contact)
     this.userService.getUserById(contact.getId())
     .then((result) => {
       this.navCtrl.push(ChatPage,{
