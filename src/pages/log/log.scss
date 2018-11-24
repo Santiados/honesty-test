@@ -26,19 +26,19 @@ page-log {
             transition: all 500ms ease;
 
             &:hover {
-                background: rgb(60, 175, 37);
+                background: #3caf25;
                 box-shadow: 2px 2px 3px 0px grey;
             }
         }
 
         #login {
             border-radius: 64px 0 0 64px;
-            background: rgb(44, 201, 30);
+            background: #2cc91e;
         }
 
         #reg {
             border-radius: 0 64px 64px 0;
-            background: rgb(16, 169, 207);
+            background: #10a9cf;
         }
     }
 }

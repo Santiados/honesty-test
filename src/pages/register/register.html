@@ -33,6 +33,13 @@
       <ion-item>
         <ion-input type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.password" name="password"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label>¿Cómo quieres que sea tu perfil?</ion-label>
+        <ion-select [(ngModel)]="user.state" name="state" >
+          <ion-option value="publico" >Público</ion-option>
+          <ion-option value="private" >Privado</ion-option>
+        </ion-select>
+      </ion-item>
       <ion-buttons id="opt-butts">
           <button ion-button round>Registrarme</button>
       </ion-buttons>

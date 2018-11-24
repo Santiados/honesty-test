@@ -24,14 +24,7 @@ export class UserProvider {
   }
 
   persist(user){
-    return new Promise((resolve,reject)=>{
-      this._FireAuth.registerByEmaiAndPassword(user)
-      .then((result) => {
-        resolve(result);
-      }).catch((err) => {
-        reject(err);
-      });
-    })
+    return this._FireAuth.registerByEmaiAndPassword(user);
   }
 
   getUserByCredentials(user){
@@ -40,6 +33,14 @@ export class UserProvider {
 
   getUserById(id_user){
     return this.user.getUserById(this.userRF,id_user);
+  }
+
+  getUsersBySearching(search,who_search){
+    return this.user.getUsersBySearching(this.userRF,search,who_search);
+  }
+
+  addContact(new_contact,to){
+    return this.user.addContact(this.userRF,new_contact,to);
   }
 
 }

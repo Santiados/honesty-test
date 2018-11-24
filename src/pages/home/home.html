@@ -1,35 +1,41 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar color="{{user.theme}}">
     <ion-title>
       Hola {{user.username}}
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="search"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-item *ngIf="_SESSIONS.length == 0" >
+  <ion-item *ngIf="_SESSIONS.length == 0">
     No tienes conversaciones recientes
   </ion-item>
-  <ion-list *ngIf="_SESSIONS.length > 0" >
+  <ion-list *ngIf="_SESSIONS.length > 0">
     <h6>Estas son tus conversaciones recientes</h6>
-    <ion-item *ngFor="let session of _SESSIONS"  (click)="goSession(session)" >
-        <ion-avatar item-start>
-            <img src="https://api.adorable.io/avatars/75/{{session.id}}">
-          </ion-avatar>
-          <h2>
-            {{session.username_user1 == user.username ? session.username_user2: session.username_user1}}
-          </h2>
-          <p>
-            {{ session.last_msg}}
-          </p>
+    <ion-item *ngFor="let session of _SESSIONS" (click)="goSession(session)">
+      <ion-avatar item-start>
+        <img src="https://api.adorable.io/avatars/75/{{session.id}}">
+      </ion-avatar>
+      <h2>
+        {{session.username_user1 == user.username ? session.username_user2: session.username_user1}}
+      </h2>
+      <p>
+        {{ session.last_msg}}
+      </p>
     </ion-item>
   </ion-list>
-  <button ion-button round bottom id="new-chat" (click)="getMyContacts()" id="contacts" padding-vertical>
-    <ion-icon ios="ios-paper" md="md-paper"></ion-icon>
-  </button>
+  <ion-fab bottom right #fab>
+    <button ion-fab color="{{user.theme}}" (click)="fabBut(fab)">
+      <ion-icon name="person"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="getMyContacts()" color="button">
+        <ion-icon name="contacts"></ion-icon>
+      </button>
+      <button ion-fab color="contacts" (click)="addContact()" >
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

@@ -33,7 +33,7 @@ export class FireAuthProvider {
           photoURL: ''
         });
         let id_created_user = current_user.uid;
-        let new_user = new User(id_created_user,user.username,current_user.email);
+        let new_user = new User(id_created_user,user.username,current_user.email,user.state);
         new_user.persist(this.usuariosRF);
         resolve(new_user);
       }).catch((err) => {
@@ -48,9 +48,12 @@ export class FireAuthProvider {
       this._FIRE.auth.signInWithEmailAndPassword(email,user.password)
       .then((result) => {
         let current_user = this.db.auth().currentUser;
-        let user = new User(current_user.uid,current_user.displayName,current_user.email,current_user.metadata.creationTime);
-        user.getContactsById(this.usuariosRF);
-        resolve(user);
+        this.usuariosRF.child(current_user.uid).on('value', data =>{
+          let q = data.val();
+          let user = new User(q.id,q.username,q.email,q.state,q.theme,q.creation);
+          user.getContactsById(this.usuariosRF);
+          resolve(user);
+        });
       }).catch((err) => {
         reject(err)
       });

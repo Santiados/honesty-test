@@ -11,6 +11,7 @@ import { ChatPage } from '../pages/chat/chat';
 import { RegisterPage } from '../pages/register/register';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { AddContactPage } from '../pages/add-contact/add-contact';
+import { PopOverPage } from '../pages/pop-over/pop-over';
 
 import { SesionProvider } from '../providers/sesion/sesion';
 import { UserProvider } from '../providers/user/user';
@@ -31,7 +32,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     ChatPage,
     RegisterPage,
     ContactsPage,
-    AddContactPage
+    AddContactPage,
+    PopOverPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     ChatPage,
     RegisterPage,
     ContactsPage,
-    AddContactPage
+    AddContactPage,
+    PopOverPage
   ],
   providers: [
     StatusBar,

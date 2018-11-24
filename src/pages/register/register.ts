@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController , ToastController, LoadingController} from 'ionic-angular';
 
 
 import { UserProvider } from '../../providers/user/user';
 
+import { HomePage } from '../../pages/home/home';
 
 
 /**
@@ -22,13 +23,16 @@ export class RegisterPage {
 
   user =  {
     username:'',
-    password:''
+    password:'',
+    state: 'publico'
   }
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private viewCtrl: ViewController,
-    private userService: UserProvider
+    private toasCtrl: ToastController,
+    private userService: UserProvider,
+    private loadCtrl: LoadingController
     ) {
   }
 
@@ -41,10 +45,19 @@ export class RegisterPage {
     this.userService.persist(datosUsuario)
     .then((result) => {
       console.log(result);
+      let load = this.loadCtrl.create({
+        content: 'Comprobando si hay espacio'
+      });
+      load.present();
+      setTimeout(()=>{
+        load.dismiss();
+        this.navCtrl.push(HomePage,{
+          data:result
+        });
+      },2000);
     }).catch((err) => {
-      this.Jstr(err,'e');
+      this.showNot(err);
     });
-    this.viewCtrl.dismiss(datosUsuario);
   }
 
   Jstr(msg:any,flag = null){
@@ -54,6 +67,14 @@ export class RegisterPage {
       console.log(JSON.stringify(msg));
     }
   }
+  showNot(msg) {
+    let toas = this.toasCtrl.create({
+      message: msg,
+      duration: 2000
+    });
+    toas.present();
+  }
+
 
   close(){
     this.viewCtrl.dismiss();

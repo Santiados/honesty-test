@@ -1,5 +1,5 @@
 import { Component,ViewChild } from '@angular/core';
-import { NavController, NavParams, ToastController, Content } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Content, PopoverController, FabContainer, ModalController } from 'ionic-angular';
 
 import { SesionProvider } from '../../providers/sesion/sesion';
 import { UserProvider } from '../../providers/user/user';
@@ -7,6 +7,8 @@ import { MessageProvider } from '../../providers/message/message';
 
 import { ContactsPage } from '../../pages/contacts/contacts';
 import { ChatPage } from '../../pages/chat/chat';
+import { PopOverPage } from '../../pages/pop-over/pop-over';
+import { AddContactPage } from '../../pages/add-contact/add-contact';
 
 import { Session } from '../../class/Session';
 import { User } from '../../class/User';
@@ -28,6 +30,8 @@ export class HomePage {
     public navCtrl: NavController,
     private paramCtrl: NavParams,
     private toasCtrl: ToastController,
+    private popCtrl: PopoverController,
+    private modalCtrl: ModalController,
     private sessionService: SesionProvider,
     private userService: UserProvider,
     private msgService: MessageProvider,
@@ -62,7 +66,7 @@ export class HomePage {
   }
 
   getMySessions() {
-    this.sessionService.getSessionsByIdUser(this.user.id_user)
+    this.sessionService.getSessionsByIdUser(this.user.getId())
       .then((result: any) => {
         this._SESSIONS = result;
       }).catch((err) => {
@@ -71,7 +75,7 @@ export class HomePage {
   }
 
   goSession(session: Session) {
-    var id_contact = this.user.id_user == session.id_user1 ? session.id_user2 : session.id_user1;
+    var id_contact = this.user.getId() == session.id_user1 ? session.id_user2 : session.id_user1;
     this.userService.getUserById(id_contact)
       .then((result: User) => {
         var contact: User;
@@ -87,12 +91,28 @@ export class HomePage {
 
   }
 
+  fabBut(fb: FabContainer){
+    setTimeout(()=>{
+      fb.close();
+    },3000);
+  }
+
   showNot(msg) {
     let toas = this.toasCtrl.create({
       message: msg,
       duration: 2000
     });
     toas.present();
+  }
+
+  addContact(){
+    let contact = this.modalCtrl.create(AddContactPage,{
+      user: this.user
+    });
+    contact.onDidDismiss( data => {
+      console.log(data)
+    });
+    contact.present();
   }
 
 }

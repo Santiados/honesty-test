@@ -1,13 +1,15 @@
 export class User {
-    id_user: string;
-    username: string;
-    email: string;
-    contacts: Array<User>;
-    creation: string;
+    private id: string;
+    private username: string;
+    private email: string;
+    private contacts: Array<User>;
+    private state: string;
+    private theme: string;
+    private creation: string;
 
-    constructor(id = null, username = null, email = null, creation = null) {
+    constructor(id = null, username = null, email = null, state = null, theme = null, creation = null) {
         if (id) {
-            this.id_user = id;
+            this.id = id;
             this.email = email;
         }
         if (username) {
@@ -16,19 +18,27 @@ export class User {
         if (email) {
             this.email = email;
         }
+        if (state) {
+            this.state = state;
+        }
+        if (theme) {
+            this.theme = theme;
+        } else {
+            this.theme = 'secondary';
+        }
         if (creation) {
-            this.creation = new Date(creation).toLocaleString();
+            this.creation = creation;
         }
         this.contacts = [];
     }
 
 
     setId(id) {
-        this.id_user = id;
+        this.id = id;
     }
 
     getId() {
-        return this.id_user;
+        return this.id;
     }
 
     setCreation(date) {
@@ -59,13 +69,28 @@ export class User {
         this.username = username;
     }
 
+    getState() {
+        return this.state;
+    }
+    setState(state) {
+        this.state = state;
+    }
+    getTheme() {
+        return this.theme;
+    }
+    setTheme(theme) {
+        this.state = theme;
+    }
+
     persist(db) {
         if (!this.creation) {
-            db.child(this.id_user).set({
-                id_user: this.id_user,
+            db.child(this.id).set({
+                id: this.id,
                 username: this.username,
                 email: this.email,
-                creation: new Date().toLocaleString()
+                state: this.state,
+                theme: this.theme,
+                creation: new Date().toJSON(),
             });
         } else {
             // Modificar perfil
@@ -76,23 +101,65 @@ export class User {
         return new Promise((resolve, reject) => {
             db.child(id_user).on('value', snap => {
                 this.setId(snap.val().id_user);
-                this.setCreation(snap.val().creation);
+                this.setCreation(new Date(snap.val().creation));
                 this.setEmail(snap.val().email);
                 this.setUsername(snap.val().username);
+                this.setState(snap.val().state);
+                this.setTheme(snap.val().theme);
                 resolve(this);
             });
         });
     }
 
+    addContact(db, new_contact, to) {
+        return new Promise((resolve, reject) => {
+            db.child(to.id).child('contacts').push({
+                id: new_contact.id,
+                username: new_contact.username
+            }, error => {
+                if (error) reject(error)
+            });
+            resolve('ok');
+        });
+    }
+
     getContactsById(db) {
         let aux = [];
-        db.child(this.id_user).child('contacts').on('value', snap => {
+        db.child(this.id).child('contacts').on('value', snap => {
             snap.forEach(element => {
                 let el = element.val();
-                let user = new User(el.id_user, el.username);
+                let user = new User(el.id, el.username);
                 aux.push(user);
             });
         });
         this.setContacts(aux);
+    }
+
+    getUsersBySearching(db, search, who_search) {
+        return new Promise((resolve, reject) => {
+            db.on('value', data => {
+                let aux = [];
+                data.forEach(element => {
+                    let con = element.val()
+                    if (con.username.includes(search) && con.state == 'publico' && con.username != who_search.getUsername()) {
+                        let fecha = 'Se unio el: ' + (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth()) + '/' + (new Date(con.creation).getFullYear());
+                        let user = new User(con.id, con.username, con.email, con.state, con.theme, fecha);
+                        aux.push(user);
+                    }
+                    if(who_search.getContacts().length > 0){
+                        who_search.getContacts().forEach(user_contact => {
+                            aux.forEach( (found_contact,i)=> {
+                               if(found_contact.getUsername() == user_contact.username){
+                                   aux.splice(i,1);
+                               } 
+                            });
+                        });
+                    }
+                });
+                resolve(aux);
+            }, error => {
+                if (error) reject(error)
+            });
+        });
     }
 }

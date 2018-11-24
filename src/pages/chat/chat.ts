@@ -59,7 +59,7 @@ export class ChatPage {
       if (this._SESSION.id) {
         for (let d in msgs) {
           if (msgs[d].id_session == this._SESSION.getId()) {
-            let msg = new Message(msgs[d].id, msgs[d].content, msgs[d].id_user, msgs[d].id_session, msgs[d].creation);
+            let msg = new Message(msgs[d].id, msgs[d].content, msgs[d].getId(), msgs[d].id_session, msgs[d].creation);
             this._MESSAGES.push(msg);
           }
         }
@@ -85,14 +85,14 @@ export class ChatPage {
   sendMsg() {
     if (this.msgTemp.trim() != '') {
       if (!this._SESSION.id) {
-        this._SESSION = new Session(null, this.user.id_user, this.user.username, this.contact.id_user, this.contact.username);
+        this._SESSION = new Session(null, this.user.getId(), this.user.getUsername(), this.contact.getId(), this.contact.getUsername());
       }
 
       this._SESSION.setLast_Msg(this.msgTemp);
       this.sessionService.persist(this._SESSION)
         .then((result) => {
 
-          let new_msg = new Message(null, this.msgTemp, this.user.id_user, this._SESSION.id);
+          let new_msg = new Message(null, this.msgTemp, this.user.getId(), this._SESSION.id);
           this.msgsService.persist(new_msg)
             .then((result) => {
               this.msgTemp = '';

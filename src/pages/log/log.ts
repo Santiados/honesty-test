@@ -41,6 +41,7 @@ export class LogPage {
   getUserByCredentials() {
     this.userService.getUserByCredentials(this.user)
       .then((result: User) => {
+        console.log(result)
         this.navCtrl.push(HomePage, {
           data: result
         });

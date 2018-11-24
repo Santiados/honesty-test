@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { LogPage } from '../pages/log/log';
+import { AddContactPage  } from '../pages/add-contact/add-contact';
 
 
 

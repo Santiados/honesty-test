@@ -5,19 +5,50 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-toolbar color="add-contact">
     <ion-title>Nuevo contacto</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="close()" >
+      <button ion-button (click)="close()" icon-only>
         <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+    <ion-searchbar color="dark" id="search-box"
+    [(ngModel)]="mySearch"
+    [showCancelButton]="shouldShowCancel"
+    (ionInput)="onInput($event)"
+    (ionCancel)="onCancel($event)">
+  </ion-searchbar>
+  <ion-list>
+    <ion-item *ngIf="_USERS.length == 0 && mySearch!=''" >Nanai, no hay usuarios con ese nombre</ion-item>
+    <ion-item *ngIf="_USERS.length == 0 && mySearch==''" >Recuerda, desliza hacia la izquierda</ion-item>
+    <ion-item-sliding *ngFor="let user of _USERS; let i = index" class="found-user">
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="https://api.adorable.io/avatars/75/{{user.id}}">
+        </ion-avatar>
+        <h2>{{user.username}}</h2>
+        <span>{{user.creation}}</span>
+      </ion-item>
+      <ion-item-options side="">
+        <button ion-button (click)="addToMyContacts(user,i)">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab bottom right>
+    <button ion-fab color="dark">
+        <ion-icon name="help-circle"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="danger">
+          <ion-icon ios="ios-glasses" md="md-glasses"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

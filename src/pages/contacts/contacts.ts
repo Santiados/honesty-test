@@ -35,7 +35,7 @@ export class ContactsPage {
   }
 
   createChatRoom(user:User,contact:User){
-    this.userService.getUserById(contact.id_user)
+    this.userService.getUserById(contact.getId())
     .then((result) => {
       this.navCtrl.push(ChatPage,{
         user: user,
@@ -45,7 +45,9 @@ export class ContactsPage {
   }
 
   addContact(){
-    let modal = this.modalCtrl.create(AddContactPage);
+    let modal = this.modalCtrl.create(AddContactPage,{
+      user:this.user
+    });
     modal.onDidDismiss( data =>{
       console.log(data)
     });

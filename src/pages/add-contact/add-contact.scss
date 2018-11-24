@@ -1,3 +1,23 @@
 page-add-contact {
+    * {
+        font-size: 95%;
+    }
+    #search-box {
+        background: rgba(97, 97, 97, 0.9);
+        border-radius: 10px;
+        box-shadow: 1px 1px 1px 0px #51a3e9;
+    }
+    .found-user {
+        border-radius: 5px;
+        margin: 1pc 0;
+        ion-item {
+            background: #0088ff5e;
+        }
+    }
 
+    ion-fab {
+        > button {
+            background: #da5950;
+        }
+    }
 }
