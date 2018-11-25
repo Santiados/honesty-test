@@ -124,15 +124,18 @@ export class User {
     }
 
     getContactsById(db) {
-        let aux = [];
-        db.child(this.id).child('contacts').on('value', snap => {
-            snap.forEach(element => {
-                let el = element.val();
-                let user = new User(el.id, el.username);
-                aux.push(user);
+        return new Promise((resolve, reject) => {
+            db.child(this.id).child('contacts').on('value', snap => {
+                let aux = [];
+                console.log('heeeey')
+                snap.forEach(element => {
+                    let el = element.val();
+                    let user = new User(el.id, el.username, el.email);
+                    aux.push(user);
+                });
+                resolve(aux);
             });
         });
-        this.setContacts(aux);
     }
 
     getUsersBySearching(db, search, who_search) {
@@ -146,12 +149,12 @@ export class User {
                         let user = new User(con.id, con.username, con.email, con.state, con.theme, fecha);
                         aux.push(user);
                     }
-                    if(who_search.getContacts().length > 0){
+                    if (who_search.getContacts().length > 0) {
                         who_search.getContacts().forEach(user_contact => {
-                            aux.forEach( (found_contact,i)=> {
-                               if(found_contact.getUsername() == user_contact.username){
-                                   aux.splice(i,1);
-                               } 
+                            aux.forEach((found_contact, i) => {
+                                if (found_contact.getUsername() == user_contact.username) {
+                                    aux.splice(i, 1);
+                                }
                             });
                         });
                     }

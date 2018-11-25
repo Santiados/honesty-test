@@ -48,7 +48,6 @@ export class AddContactPage {
   }
 
   addToMyContacts(user,index){
-    console.log(index)
     let alert = this.alertCtrl.create({
       message: '¿Quieres añadir a '+ user.username + '?',
       buttons: [
@@ -65,10 +64,7 @@ export class AddContactPage {
           handler: () =>{
             this.userService.addContact(user,this.user)
             .then((result) => {
-              console.log(result);
-              console.log('a',this._USERS)
               this._USERS.splice(index,1);
-              console.log('d',this._USERS)
             }).catch((err) => {
               this.showNot(err.message);
             });

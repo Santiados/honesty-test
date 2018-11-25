@@ -1,4 +1,11 @@
 page-chat {
+	#contact_profile{
+		img {
+			border-radius: 50%;
+			width: 3pc;
+			height: 3pc;
+		}
+	}
 	#chatMsg {
 		display: flex;
 		flex-direction: column;

@@ -51,7 +51,6 @@ export class FireAuthProvider {
         this.usuariosRF.child(current_user.uid).on('value', data =>{
           let q = data.val();
           let user = new User(q.id,q.username,q.email,q.state,q.theme,q.creation);
-          user.getContactsById(this.usuariosRF);
           resolve(user);
         });
       }).catch((err) => {

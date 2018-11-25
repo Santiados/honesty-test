@@ -9,8 +9,9 @@ export class Session {
     username_user2: string;
     msgs: Array<any>;
     last_msg: string;
+    last_msg_time: string;
     creation: string;
-    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null, msgs = null) {
+    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null,last_msg_time = null, msgs = null) {
         if (id) {
             this.id = id;
         }
@@ -25,6 +26,9 @@ export class Session {
 
         if (last_msg) {
             this.last_msg = last_msg;
+        }
+        if(last_msg_time){
+            this.last_msg_time = last_msg_time;
         }
 
         this.msgs = [];
@@ -51,6 +55,13 @@ export class Session {
     setLast_Msg(last_msg) {
         this.last_msg = last_msg;
     }
+    getLast_Msg_Time() {
+        return this.last_msg_time;
+    }
+
+    setLast_Msg_Time(last_msg_time) {
+        this.last_msg_time = last_msg_time;
+    }
 
 
 
@@ -58,7 +69,8 @@ export class Session {
     persist(db) {
         return new Promise((resolve, reject) => {
             if (!this.id) {
-                this.creation = new Date().toLocaleString();
+                this.creation = new Date().toJSON();
+                this.last_msg_time = new Date().toJSON();
                 db.push(this);
                 db.on('child_added', snap => {
                     this.setId(snap.key);
@@ -70,7 +82,8 @@ export class Session {
                 });
             } else {
                 db.child(this.id).update({
-                    last_msg: this.last_msg
+                    last_msg: this.last_msg,
+                    last_msg_time: this.last_msg_time.toJSON()
                 }, error =>{
                     reject(error)
                 });
@@ -85,6 +98,24 @@ export class Session {
 
     deleteUserFromSession() {
 
+    }
+
+    getSessionByIdUsers(db,id_user1,id_user2){
+        let aux = [];
+        return new Promise((resolve,reject)=>{
+            db.on('value', snap =>{
+                snap.forEach(element => {
+                    if (element.val().id_user1 == id_user1 && element.val().id_user2 == id_user2 || element.val().id_user1 == id_user2 && element.val().id_user2 == id_user1) {
+                        let el = element.val();
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg);
+                        aux.push(session);
+                    }
+                });
+                resolve(aux);
+            }, error =>{
+                if(error) reject(error);
+            });
+        });
     }
 
     getSessionsByIdUser(db, id_user) {

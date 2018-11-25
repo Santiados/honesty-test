@@ -22,10 +22,10 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngIf="user.contacts.length == 0">
+    <ion-item *ngIf="_CONTACTS.length == 0">
       Honesty es más divertido con amigos
     </ion-item>
-    <ion-item-sliding #item *ngFor="let contact of user.contacts">
+    <ion-item-sliding #item *ngFor="let contact of _CONTACTS">
       <ion-item (click)="createChatRoom(user,contact)">
         {{ contact.username }}
       </ion-item>

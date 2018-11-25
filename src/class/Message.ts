@@ -59,7 +59,7 @@ export class Message {
     persist(db) {
         return new Promise((resolve, reject) => {
             if (!this.id) {
-                this.creation = new Date().toLocaleString();
+                this.creation = new Date().toJSON();
                 db.push(this);
                 db.on('child_added', snap => {
                     this.setId(snap.key);

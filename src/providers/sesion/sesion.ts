@@ -29,4 +29,8 @@ export class SesionProvider {
     return this.session.getSessionsByIdUser(this.sessionRF,id_user);
   }
 
+  getSessionByUsers(id_user1,id_user2){
+    return this.session.getSessionByIdUsers(this.sessionRF,id_user1,id_user2);
+  }
+
 }

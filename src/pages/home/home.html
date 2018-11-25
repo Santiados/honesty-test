@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content margin>
   <ion-item *ngIf="_SESSIONS.length == 0">
     No tienes conversaciones recientes
   </ion-item>
@@ -15,14 +15,19 @@
     <h6>Estas son tus conversaciones recientes</h6>
     <ion-item *ngFor="let session of _SESSIONS" (click)="goSession(session)">
       <ion-avatar item-start>
-        <img src="https://api.adorable.io/avatars/75/{{session.id}}">
+        <img src="https://api.adorable.io/avatars/75/{{session.username_user1 == user.username ? session.id_user2: session.id_user1}}">
       </ion-avatar>
       <h2>
         {{session.username_user1 == user.username ? session.username_user2: session.username_user1}}
       </h2>
-      <p>
-        {{ session.last_msg}}
-      </p>
+      <ion-row>
+        <ion-col col-8>
+            {{ session.last_msg}}
+        </ion-col>
+        <ion-col col-2>
+            {{session.last_msg_time}}
+        </ion-col>
+      </ion-row>
     </ion-item>
   </ion-list>
   <ion-fab bottom right #fab>
