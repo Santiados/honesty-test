@@ -91,7 +91,7 @@ export class ChatPage {
       }
 
       this._SESSION.setLast_Msg(this.msgTemp);
-      this._SESSION.setLast_Msg_Time(new Date());
+      this._SESSION.setLast_Msg_Time(new Date().toJSON());
       this.sessionService.persist(this._SESSION)
         .then((result) => {
 

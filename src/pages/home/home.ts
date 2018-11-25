@@ -42,10 +42,10 @@ export class HomePage {
       this._SESSIONS = [];
       for(let d in ses){
         if(ses[d].id_user1 == this.user.getId() || ses[d].id_user2 == this.user.getId()){
-          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,ses[d].last_msg_time);
           let fecha = (new Date(ses[d].last_msg_time).getHours()) + ':'+ (new Date(ses[d].last_msg_time).getMinutes());
-          session.setLast_Msg_Time(fecha);
+          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha);
           this._SESSIONS.push(session);
+          console.log(this._SESSIONS)
         } 
       }
       setTimeout(()=>{

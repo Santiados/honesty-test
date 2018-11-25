@@ -1,4 +1,4 @@
-import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+
 
 export class Session {
     id: string;
@@ -83,7 +83,7 @@ export class Session {
             } else {
                 db.child(this.id).update({
                     last_msg: this.last_msg,
-                    last_msg_time: this.last_msg_time.toJSON()
+                    last_msg_time: this.last_msg_time
                 }, error =>{
                     reject(error)
                 });
