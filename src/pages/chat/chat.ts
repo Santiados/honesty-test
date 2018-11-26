@@ -66,7 +66,9 @@ export class ChatPage {
         }
       }
       setTimeout(() => {
-        this.content.scrollToBottom(300);
+        if(this.content._scroll){
+          this.content.scrollToBottom(200);
+        }
       }, 500);
     });
   }
@@ -84,7 +86,6 @@ export class ChatPage {
   }
 
   sendMsg() {
-    console.log(this._SESSION)
     if (this.msgTemp.trim() != '') {
       if (!this._SESSION.id) {
         this._SESSION = new Session(null, this.user.getId(), this.user.getUsername(), this.contact.getId(), this.contact.getUsername());

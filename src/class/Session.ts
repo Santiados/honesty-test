@@ -107,7 +107,7 @@ export class Session {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user1 && element.val().id_user2 == id_user2 || element.val().id_user1 == id_user2 && element.val().id_user2 == id_user1) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg,el.last_msg_time);
                         aux.push(session);
                     }
                 });
@@ -125,7 +125,7 @@ export class Session {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user || element.val().id_user2 == id_user) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg,el.last_msg_time);
                         aux.unshift(session);
                     }
                 });

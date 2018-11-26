@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, ToastController, Content } from 'ionic-angular';
 
 /**
  * Generated class for the ContactsPage page.
@@ -8,7 +8,7 @@ import { IonicPage, NavController, NavParams, ModalController, ToastController }
  * Ionic pages and navigation.
  */
 
-import { User  } from  '../../class/User';
+import { User } from '../../class/User';
 import { ChatPage } from '../../pages/chat/chat';
 import { AddContactPage } from '../../pages/add-contact/add-contact';
 
@@ -25,59 +25,65 @@ import { Session } from '../../class/Session';
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
+  @ViewChild(Content) content: Content;
   user: User;
   _CONTACTS: User[] = [];
   usersRF = firebase.database().ref('users');
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
     private toasCtrl: ToastController,
     private userService: UserProvider,
     private sessionService: SesionProvider,
     private db: AngularFireDatabase
-    ) {
-      this.user = this.navParams.get('user');
-      this.usersRF.child(this.user.getId() + '/contacts').on('value', data =>{
-        this._CONTACTS = [];
-        data.forEach(element => {
-          let el = element.val();
-          let contact = new User(el.id,el.username);
-          this._CONTACTS.push(contact);
-          this.user.setContacts(this._CONTACTS);
-        });
+  ) {
+    this.user = this.navParams.get('user');
+    this.usersRF.child(this.user.getId() + '/contacts').on('value', data => {
+      this._CONTACTS = [];
+      data.forEach(element => {
+        let el = element.val();
+        let contact = new User(el.id, el.username);
+        this._CONTACTS.push(contact);
+        this.user.setContacts(this._CONTACTS);
       });
-     }
+    });
+    setTimeout(() => {
+      if (this.content._scroll) {
+        this.content.scrollToBottom(200);
+      }
+    }, 500);
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
   }
 
-  createChatRoom(user:User,contact:User){
+  createChatRoom(user: User, contact: User) {
     this.trace(contact)
     this.trace(user)
-    this.sessionService.getSessionByUsers(user.getId(),contact.getId())
-    .then((resultSession:Session[]) => {
-      this.userService.getUserById(contact.getId())
-      .then((resultUser:User) => {
-        this.navCtrl.push(ChatPage,{
-          user: user,
-          contact: resultUser,
-          session: (resultSession.length > 0) ? resultSession[0]: null
-        });
+    this.sessionService.getSessionByUsers(user.getId(), contact.getId())
+      .then((resultSession: Session[]) => {
+        this.userService.getUserById(contact.getId())
+          .then((resultUser: User) => {
+            this.navCtrl.push(ChatPage, {
+              user: user,
+              contact: resultUser,
+              session: (resultSession.length > 0) ? resultSession[0] : null
+            });
+          });
+      }).catch((err) => {
+        this.showNot(err.message);
       });
-    }).catch((err) => {
-      this.showNot(err.message);
-    });
-    
+
   }
 
-  addContact(){
-    let modal = this.modalCtrl.create(AddContactPage,{
-      user:this.user
+  addContact() {
+    let modal = this.modalCtrl.create(AddContactPage, {
+      user: this.user
     });
-    modal.onDidDismiss( data =>{
-      console.log('res',data)
+    modal.onDidDismiss(data => {
+      console.log('res', data)
     });
     modal.present();
   }
@@ -90,12 +96,12 @@ export class ContactsPage {
     toas.present();
   }
 
-  back(){
+  back() {
     this.navCtrl.pop();
   }
 
-  trace(e){
-    console.log('trace-contacts',e)
+  trace(e) {
+    console.log('trace-contacts', e)
     console.log(ContactsPage.constructor.name)
   }
 

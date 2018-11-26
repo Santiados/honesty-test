@@ -45,20 +45,18 @@ export class HomePage {
           let fecha = (new Date(ses[d].last_msg_time).getHours()) + ':'+ (new Date(ses[d].last_msg_time).getMinutes());
           let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha);
           this._SESSIONS.push(session);
-          console.log(this._SESSIONS)
         } 
       }
       setTimeout(()=>{
-        this.content.scrollToBottom(300);
+        if(this.content._scroll){
+          this.content.scrollToBottom(200);
+        }
       },500);
     });
   }
 
   ionViewDidLoad() {
     console.log('hola');
-  }
-  ionViewCanEnter() {
-    this.getMySessions();
   }
 
   getMyContacts() {
@@ -82,7 +80,6 @@ export class HomePage {
       .then((result: User) => {
         var contact: User;
         contact = result;
-
         this.navCtrl.push(ChatPage, {
           session: session,
           user: this.user,
