@@ -3,7 +3,12 @@
     <ion-title>
       Honesty
     </ion-title>
-
+    <ion-buttons end>
+      <ion-avatar item-left id="user_profile" (click)="showProfile(user)" >
+        <p>{{user.username}}</p>
+        <img src="https://api.adorable.io/avatars/75/{{user.id}}" >
+      </ion-avatar>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +27,7 @@
         {{session.username_user1 == user.username ? session.username_user2: session.username_user1}}
       </h2>
       <ion-row>
-        <ion-col col-10>
+        <ion-col col-9>
             <p>{{ session.last_msg}}</p>
         </ion-col>
         <ion-col col-2>

@@ -16,6 +16,7 @@ import { Message } from '../../class/Message';
 
 import * as firebase from 'firebase/app';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { ProfilePage } from '../profile/profile';
 
 @Component({
   selector: 'page-home',
@@ -57,6 +58,12 @@ export class HomePage {
 
   ionViewDidLoad() {
     console.log('hola');
+  }
+
+  showProfile(user:User){
+    let create = this.modalCtrl.create(ProfilePage,{
+      user:this.user
+    });
   }
 
   getMyContacts() {

@@ -12,6 +12,7 @@ import { RegisterPage } from '../pages/register/register';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { AddContactPage } from '../pages/add-contact/add-contact';
 import { PopOverPage } from '../pages/pop-over/pop-over';
+import { ProfilePage } from '../pages/profile/profile';
 
 import { SesionProvider } from '../providers/sesion/sesion';
 import { UserProvider } from '../providers/user/user';
@@ -33,7 +34,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     RegisterPage,
     ContactsPage,
     AddContactPage,
-    PopOverPage
+    PopOverPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     RegisterPage,
     ContactsPage,
     AddContactPage,
-    PopOverPage
+    PopOverPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

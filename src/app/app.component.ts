@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { LogPage } from '../pages/log/log';
 import { AddContactPage  } from '../pages/add-contact/add-contact';
+import { ProfilePage } from '../pages/profile/profile';
 
 
 
@@ -13,7 +14,7 @@ import { AddContactPage  } from '../pages/add-contact/add-contact';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = LogPage;
+  rootPage:any = ProfilePage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

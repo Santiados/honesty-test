@@ -1,4 +1,20 @@
 page-home {
+    ion-toolbar{
+        ion-buttons {
+            #user_profile {
+                display: flex;
+                justify-content: space-between;
+                color:white;
+                img {
+                    margin: 0 3px;
+                    height: 3pc;
+                    width: 3pc;
+                    border-radius: 50%;
+                    border:1px solid white;
+                }
+            }
+        }
+    }
     #content {
         background: #ecf8ff;
         ion-list {
@@ -25,7 +41,6 @@ page-home {
                             font-size: 90%;
                             color: black;
                             opacity: 0.8;
-                            padding-right: 100px;
                         }
                         span {
                             font-size: 80%;

@@ -1,0 +1,46 @@
+page-profile {
+    #content {
+        background: #51a1af;
+        ion-card {
+            > * {
+                
+            }
+            .background {
+                background-image: url("/assets/imgs/simple.jpg");
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: right top;
+                height: 10pc;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                overflow: visible;
+                filter: blur(1px);
+            }
+            .img-user {
+                position: absolute;
+                width: inherit;
+                display: flex;
+                justify-content: center;
+                transform: translate(0,-50%);
+                z-index: 1000;
+                img {
+                    border-radius: 50%;
+                    width: 6pc;
+                    height: 6pc;
+                    border:2px solid white;
+                }
+            }
+            .data-user {
+                margin-top: 4pc;
+                background: red;
+                color: red;
+                #lista {
+                    ion-item {
+                        color:grey;
+                    }
+                }
+            }
+        }
+    }
+}
