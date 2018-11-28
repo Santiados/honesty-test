@@ -1,0 +1,18 @@
+page-video-chat {
+    #content {
+        > div {
+            border-radius: 2pc;
+        }
+        #publisher {
+            position: absolute;
+            bottom: 2pc;
+            right: 1pc;
+            width: 10pc;
+            height: 8pc;
+            z-index: 100;
+        }
+        #subscriber {
+            height: 100%;
+        }
+    }
+}

@@ -13,6 +13,7 @@ import { ContactsPage } from '../pages/contacts/contacts';
 import { AddContactPage } from '../pages/add-contact/add-contact';
 import { PopOverPage } from '../pages/pop-over/pop-over';
 import { ProfilePage } from '../pages/profile/profile';
+import { VideoChatPage } from '../pages/video-chat/video-chat';
 
 import { SesionProvider } from '../providers/sesion/sesion';
 import { UserProvider } from '../providers/user/user';
@@ -25,6 +26,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { Http, HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -35,14 +38,16 @@ import { AngularFirestore } from '@angular/fire/firestore';
     ContactsPage,
     AddContactPage,
     PopOverPage,
-    ProfilePage
+    ProfilePage,
+    VideoChatPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(fireConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -54,7 +59,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     ContactsPage,
     AddContactPage,
     PopOverPage,
-    ProfilePage
+    ProfilePage,
+    VideoChatPage
   ],
   providers: [
     StatusBar,

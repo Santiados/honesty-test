@@ -8,7 +8,7 @@ import { LogPage } from '../pages/log/log';
 import { AddContactPage  } from '../pages/add-contact/add-contact';
 import { ProfilePage } from '../pages/profile/profile';
 import { ContactsPage } from '../pages/contacts/contacts'; 
-import { from } from 'rxjs/observable/from';
+import { VideoChatPage } from '../pages/video-chat/video-chat';
 
 
 

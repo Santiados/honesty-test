@@ -26,7 +26,6 @@ export class HomePage {
   @ViewChild(Content) content: Content;
   user: User;
   _SESSIONS = [];
-  sessionsRF = firebase.database().ref('sessions');
   constructor(
     public navCtrl: NavController,
     private paramCtrl: NavParams,
@@ -44,7 +43,7 @@ export class HomePage {
       for(let d in ses){
         if(ses[d].id_user1 == this.user.getId() || ses[d].id_user2 == this.user.getId()){
           let fecha = (new Date(ses[d].last_msg_time).getHours()) + ':'+ (new Date(ses[d].last_msg_time).getMinutes());
-          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha);
+          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha,ses[d].sessionOpen);
           this._SESSIONS.push(session);
         } 
       }
