@@ -1,3 +1,12 @@
 page-contacts {
-    
+    #content {
+        ion-list {
+            ion-item {
+                margin: 2px 0;
+                border-radius: 5px;
+                background: #1c90be;
+                color:white;
+            }
+        }
+    }
 }

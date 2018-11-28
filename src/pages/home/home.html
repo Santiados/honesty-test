@@ -4,10 +4,10 @@
       Honesty
     </ion-title>
     <ion-buttons end>
-      <ion-avatar item-left id="user_profile" (click)="showProfile(user)" >
+      <button ion-button item-left id="user_profile"  (click)="showProfile(user)">
         <p>{{user.username}}</p>
-        <img src="https://api.adorable.io/avatars/75/{{user.id}}" >
-      </ion-avatar>
+        <img src="https://api.adorable.io/avatars/75/{{user.id}}">
+      </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

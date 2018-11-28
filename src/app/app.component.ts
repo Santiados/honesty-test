@@ -7,6 +7,8 @@ import { HomePage } from '../pages/home/home';
 import { LogPage } from '../pages/log/log';
 import { AddContactPage  } from '../pages/add-contact/add-contact';
 import { ProfilePage } from '../pages/profile/profile';
+import { ContactsPage } from '../pages/contacts/contacts'; 
+import { from } from 'rxjs/observable/from';
 
 
 
@@ -14,7 +16,7 @@ import { ProfilePage } from '../pages/profile/profile';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = ProfilePage;
+  rootPage:any = LogPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

@@ -1,4 +1,7 @@
 page-chat {
+	#content {
+		// background: #51a1af;
+	}
 	#contact_profile{
 		img {
 			border-radius: 50%;
@@ -33,7 +36,7 @@ page-chat {
 		}
 
 		.msg-right {
-			background: rgb(29, 161, 194);
+			background: #1c90be;
 			align-self: flex-end;
 			border-radius: 5px 0px 5px 5px;
 		}

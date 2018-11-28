@@ -26,7 +26,7 @@ import { Session } from '../../class/Session';
 })
 export class ContactsPage {
   @ViewChild(Content) content: Content;
-  user: User;
+  user: User = new User();
   _CONTACTS: User[] = [];
   usersRF = firebase.database().ref('users');
   constructor(

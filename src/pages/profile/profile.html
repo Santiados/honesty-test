@@ -1,8 +1,7 @@
-
 <ion-header>
-  <ion-navbar color="secondary">
+  <ion-navbar color="{{user.theme}}">
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="close()">
         <ion-icon name="close-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -10,18 +9,25 @@
 </ion-header>
 
 
-<ion-content id="content" >
+<ion-content id="content">
   <ion-card>
     <div class="background">
     </div>
     <div class="img-user">
-        <img src="https://api.adorable.io/avatars/75/11" >
+      <img src="https://api.adorable.io/avatars/75/{{user.id}}">
     </div>
     <div class="data-user">
       <ion-list id="lista">
-        <ion-item>Hola hola hola hola</ion-item>
-        <ion-item>Hola hola hola hola</ion-item>
-        <ion-item>Hola hola hola hola</ion-item>
+        <ion-item>{{user.username}}</ion-item>
+        <ion-item>{{user.email}}</ion-item>
+        <ion-item>
+          <ion-label>Tema favorito</ion-label>
+          <ion-select [(ngModel)]="user.theme">
+            <ion-option value="primary">Azul Bueno</ion-option>
+            <ion-option value="secondary">Verde Honesty</ion-option>
+            <ion-option value="danger">Rojo peligro</ion-option>
+          </ion-select>
+        </ion-item>
       </ion-list>
     </div>
   </ion-card>

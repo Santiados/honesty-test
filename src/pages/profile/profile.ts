@@ -25,5 +25,7 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
   }
 
-  
+  close(){
+    this.navCtrl.pop();
+  }
 }

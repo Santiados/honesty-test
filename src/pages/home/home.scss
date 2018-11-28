@@ -16,31 +16,29 @@ page-home {
         }
     }
     #content {
-        background: #ecf8ff;
         ion-list {
             h6 {
                 font-size: 90%;
                 font-weight: 400;
+                color:black;
+                opacity: 0.8;
             }
 
             ion-item {
                 margin: 2px 0;
                 border-radius: 5px;
-                h2 {
-                    
-                }
-                &:hover {
-                    background: #cccccc;
-                    * {
-                        color:white;
+                background: #1c90be;
+                color:white;
+                ion-avatar {
+                    img {
+                        border:1px solid white;
                     }
                 }
                 ion-row {
                     ion-col {
                         p {
                             font-size: 90%;
-                            color: black;
-                            opacity: 0.8;
+                            color:white;
                         }
                         span {
                             font-size: 80%;

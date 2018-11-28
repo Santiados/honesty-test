@@ -61,9 +61,13 @@ export class HomePage {
   }
 
   showProfile(user:User){
-    let create = this.modalCtrl.create(ProfilePage,{
+    console.log('dasd')
+    let modal = this.modalCtrl.create(ProfilePage,{
       user:this.user
     });
+
+    modal.present()
+
   }
 
   getMyContacts() {
