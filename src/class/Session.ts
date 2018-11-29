@@ -80,7 +80,7 @@ export class Session {
         return new Promise((resolve, reject) => {
             if (!this.id) {
                 this.creation = new Date().toJSON();
-                this.last_msg_time = new Date().toJSON();
+                this.last_msg_time = this.last_msg_time;
                 db.push(this);
                 db.on('child_added', snap => {
                     this.setId(snap.key);

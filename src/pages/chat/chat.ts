@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Content, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Content, ModalController, AlertController } from 'ionic-angular';
 
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -23,8 +23,9 @@ import * as firebase from 'firebase/app';
 import { UserProvider } from '../../providers/user/user';
 
 import { map } from 'rxjs/operators';
-import { getAllDebugNodes } from '@angular/core/src/debug/debug_node';
 import { VideoChatPage } from '../video-chat/video-chat';
+
+declare var OT: any;
 
 @IonicPage()
 @Component({
@@ -43,13 +44,16 @@ export class ChatPage {
   configOpen = {
     apiKey: '',
     sessionId: '',
-    token:''
+    token: ''
   };
+  OpenSession: any;
+  connected = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private toasCtrl: ToastController,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     private msgsService: MessageProvider,
     private sessionService: SesionProvider,
     private userService: UserProvider,
@@ -89,14 +93,54 @@ export class ChatPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
   }
-
-  setMsgs(data) {
-    let aux = [];
-    data.forEach(element => {
-      aux.push(element.val());
-    });
-    return aux;
+  ionViewDidLeave() {
+    this.OpenSession.disconnect();
   }
+
+  initOpen() {
+    if (!this.OpenSession) {
+      this.OpenSession = OT.initSession(this.configOpen.apiKey, this.configOpen.sessionId);
+    }
+    this.OpenSession.on("sessionDisconnected", function (event) {
+      event.preventDefault();
+      console.log('ALERT');
+    });
+
+
+    this.OpenSession.on('signal:call', e => {
+      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+        let alert = this.prepareCall();
+        alert.present();
+      }
+    });
+    this.OpenSession.on('signal:refuse', e => {
+      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+        this.showNot(this.contact.getUsername() + ' ha pasado de ti');
+      }
+    });
+    this.OpenSession.on('signal:accept', e => {
+      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+        this.goVideo();
+      }
+    })
+    this.OpenSession.connect(this.configOpen.token, err => {
+      if (err) {
+        this.connected = false;
+        this.showNot(err.message);
+      } else {
+        this.connected = true;
+      }
+    });
+
+  }
+
+
+
+  call() {
+    console.log(this.configOpen)
+    this.sendSignal('call');
+  }
+
 
   sendMsg() {
     if (this.msgTemp.trim() != '') {
@@ -122,17 +166,51 @@ export class ChatPage {
     }
   }
 
-  call(){
-    console.log(this.configOpen)
-    let modal = this.modalCtrl.create(VideoChatPage,{
-      config: this.configOpen,
-      user: this.user,
-      contact: this.contact
+  prepareCall() {
+    let alert = this.alertCtrl.create({
+      title: 'Llamada de ' + this.contact.getUsername(),
+      buttons: [
+        {
+          text: 'Pasar',
+          handler: () => {
+            this.sendSignal('refuse');
+            this.showNot('Has pasado de ' + this.contact.getUsername());
+          }
+        },
+        {
+          text: 'Coger',
+          handler: () => {
+            this.sendSignal('accept');
+            this.goVideo();
+          }
+        }
+      ]
+    });
+    return alert;
+  }
+
+  goVideo() {
+    let modal = this.modalCtrl.create(VideoChatPage, {
+      OpenSession: this.OpenSession
+    });
+    modal.onDidDismiss(() => {
+      this.showNot('Llamada terminada');
     });
     modal.present();
   }
 
-  getSessionId(){
+  sendSignal(type) {
+    this.OpenSession.signal({
+      data: type,
+      type: type
+    }, err => {
+      if (err) {
+        this.showNot(err.message);
+      }
+    });
+  }
+
+  getSessionId() {
     this._HTTP.get(this.url + 'getSessionId')
       .map(res => res.json())
       .subscribe(data => {
@@ -140,13 +218,13 @@ export class ChatPage {
         console.log(JSON.stringify(data))
         this._SESSION.setSessionOpen(data.sessionId);
         this.sessionService.persist(this._SESSION)
-        .then((res)=>{
-          console.log(res)
-          this.getToken();
-        })
-        .catch((e)=>{
-          this.showNot(e.message)
-        });
+          .then((res) => {
+            console.log(res)
+            this.getToken();
+          })
+          .catch((e) => {
+            this.showNot(e.message)
+          });
       }, error => {
         this.showNot(error.message);
       });
@@ -157,7 +235,7 @@ export class ChatPage {
       .map(res => res.json())
       .subscribe(data => {
         this.configOpen = data;
-        console.log('tokens',this.configOpen)
+        this.initOpen();
       }, error => {
         this.showNot(error.message);
       });

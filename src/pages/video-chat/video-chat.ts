@@ -11,9 +11,11 @@ declare var OT: any;
 export class VideoChatPage {
   session: any;
   publisher: any;
+  sub:any;
   config;
   cameraSource = 0;
   devices: any[];
+  OpenSession: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -21,9 +23,10 @@ export class VideoChatPage {
     private toasCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    this.config = this.navParams.get('config');
-    console.log('dasdast',this.navParams.get('config'))
-    this.startCall();
+    this.OpenSession = this.navParams.get('OpenSession');
+    setTimeout(() => {
+      this.startCall();
+    }, 500);
   }
 
   ionViewDidLoad() {
@@ -32,11 +35,17 @@ export class VideoChatPage {
 
 
   startCall() {
-    this.session = OT.initSession(this.config.apiKey, this.config.sessionId);
+
+    
+
+    this.OpenSession.on('streamCreated', (event) => {
+      event.preventDefault();
+    });
 
     // Subscribe to a newly created stream
-    this.session.on('streamCreated', (event) => {
-      this.session.subscribe(event.stream, 'subscriber', {
+    this.OpenSession.on('streamCreated', (event) => {
+      event.preventDefault();
+      this.sub = this.OpenSession.subscribe(event.stream, 'subscriber', {
         insertMode: 'append',
         resolution: '1280x720',
         showControls: false,
@@ -45,28 +54,25 @@ export class VideoChatPage {
       });
     });
 
-    this.session.on('sessionDisconnected', (event) => {
-
+    this.OpenSession.on('signal:close', e => {
+      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+        this.endCall();
+        this.viewCtrl.dismiss();
+      }
     });
 
-    // Connect to the session
-    this.session.connect(this.config.token, (error) => {
-      if (!error) {
-        // Create a publisher
-        this.publisher = OT.initPublisher('publisher', {
-          insertMode: 'append',
-          resolution: '1280x720',
-          width: '100%',
-          height: '100%'
-        });
 
-        this.session.publish(this.publisher, (error) => {
-          if (error) {
-            console.log("Publisher error: " + error);
-            this.handleError(error);
-          }
-        });
-      } else {
+    // Create a publisher
+    this.publisher = OT.initPublisher('publisher', {
+      insertMode: 'append',
+      resolution: '1280x720',
+      width: '100%',
+      height: '100%'
+    });
+
+    this.OpenSession.publish(this.publisher, (error) => {
+      if (error) {
+        console.log("Publisher error: " + error);
         this.handleError(error);
       }
     });
@@ -74,8 +80,14 @@ export class VideoChatPage {
 
   // Ends call
   endCall() {
-    if (!!this.session) {
-      this.session.disconnect();
+    if (!!this.OpenSession) {
+      // this.OpenSession.disconnect();
+      if(this.sub){
+        this.OpenSession.unsubscribe(this.sub);
+      }
+      if(this.publisher){
+        this.OpenSession.unpublish(this.publisher);
+      }
     }
   }
 
@@ -93,7 +105,7 @@ export class VideoChatPage {
     this.session.publish(this.publisher);
   }
 
-  handleError(e){
+  handleError(e) {
     this.showNot(e.message)
   }
 
@@ -107,6 +119,14 @@ export class VideoChatPage {
 
 
   close() {
+    this.OpenSession.signal({
+      data:'close',
+      type:'close'
+    },err =>{
+      if(err){
+        this.showNot(err.message);
+      }
+    });
     this.endCall();
     this.viewCtrl.dismiss();
   }
