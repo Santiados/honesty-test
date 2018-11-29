@@ -28,7 +28,7 @@
       </h2>
       <ion-row>
         <ion-col col-9>
-            <p>{{ session.last_msg}}</p>
+            <p>{{ (session.last_msg.length > 12) ? session.last_msg.substr(0,12): session.last_msg}}</p>
         </ion-col>
         <ion-col col-2>
             <span>{{session.last_msg_time}}</span>
