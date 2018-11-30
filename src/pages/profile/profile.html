@@ -1,5 +1,10 @@
 <ion-header>
   <ion-navbar color="{{user.theme}}">
+    <ion-buttons left>
+      <button ion-button color="light" (click)="logOut()" round>
+          Salir
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button ion-button icon-only (click)="close()">
         <ion-icon name="close-circle"></ion-icon>

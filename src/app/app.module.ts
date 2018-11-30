@@ -27,6 +27,8 @@ import { FireAuthProvider } from '../providers/fire-auth/fire-auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Http, HttpModule } from '@angular/http';
+import { SQLite } from '@ionic-native/sqlite';
+import { LoggedUserProvider } from '../providers/logged-user/logged-user';
 
 @NgModule({
   declarations: [
@@ -65,12 +67,14 @@ import { Http, HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     SplashScreen,
+    SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SesionProvider,
     UserProvider,
     MessageProvider,
     FireAuthProvider,
-    AngularFirestore
+    AngularFirestore,
+    LoggedUserProvider
   ]
 })
 export class AppModule {}

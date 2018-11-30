@@ -5,30 +5,57 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { LogPage } from '../pages/log/log';
-import { AddContactPage  } from '../pages/add-contact/add-contact';
+import { AddContactPage } from '../pages/add-contact/add-contact';
 import { ProfilePage } from '../pages/profile/profile';
-import { ContactsPage } from '../pages/contacts/contacts'; 
+import { ContactsPage } from '../pages/contacts/contacts';
 import { VideoChatPage } from '../pages/video-chat/video-chat';
 
-
+import { SQLite } from '@ionic-native/sqlite';
+import { LoggedUserProvider } from '../providers/logged-user/logged-user';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = LogPage;
+  rootPage: any = null;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(
+    platform: Platform,
+    statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private Sqlite: SQLite,
+    private log_users: LoggedUserProvider
+  ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      if(platform.is('android') || platform.is('ios')){
+      if (platform.is('android') || platform.is('ios')) {
         statusBar.styleLightContent();
+        this.createDatabase();
       } else {
         statusBar.styleDefault();
+        this.splashScreen.hide();
+        this.rootPage = LogPage;
       }
-      splashScreen.hide();
     });
+  }
+
+  private createDatabase() {
+    this.Sqlite.create({
+      name: 'data.db',
+      location: 'default' // the location field is required
+    })
+      .then((db) => {
+        this.log_users.setDB(db);
+        return this.log_users.userLoggedTable();
+      })
+      .then(()=>{
+        this.splashScreen.hide();
+        this.rootPage = LogPage;
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 }
 
