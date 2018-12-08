@@ -46,7 +46,7 @@ export class RegisterPage {
     .then((result) => {
       console.log(result);
       let load = this.loadCtrl.create({
-        content: 'Comprobando si hay espacio'
+        content: 'haciendo hueco...'
       });
       load.present();
       setTimeout(()=>{

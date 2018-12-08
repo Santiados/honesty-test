@@ -5,9 +5,10 @@ export class User {
     private contacts: Array<User>;
     private state: string;
     private theme: string;
+    private deleted: number;
     private creation: string;
 
-    constructor(id = null, username = null, email = null, state = null, theme = null, creation = null) {
+    constructor(id = null, username = null, email = null, state = null, theme = null, deleted = 0, creation = null) {
         if (id) {
             this.id = id;
             this.email = email;
@@ -25,6 +26,11 @@ export class User {
             this.theme = theme;
         } else {
             this.theme = 'secondary';
+        }
+        if(deleted){
+            this.deleted = deleted;
+        }else {
+            this.deleted = 0;
         }
         if (creation) {
             this.creation = creation;
@@ -81,6 +87,12 @@ export class User {
     setTheme(theme) {
         this.state = theme;
     }
+    getDeleted(){
+        return this.deleted;
+    }
+    setDeleted(deleted){
+        this.deleted = deleted;
+    }
 
     persist(db) {
         if (!this.creation) {
@@ -90,6 +102,7 @@ export class User {
                 email: this.email,
                 state: this.state,
                 theme: this.theme,
+                deleted: this.deleted,
                 creation: new Date().toJSON(),
             });
         } else {
@@ -146,7 +159,7 @@ export class User {
                     let con = element.val()
                     if (con.username.includes(search) && con.state == 'publico' && con.username != who_search.getUsername()) {
                         let fecha = 'Se unio el: ' + (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth()) + '/' + (new Date(con.creation).getFullYear());
-                        let user = new User(con.id, con.username, con.email, con.state, con.theme, fecha);
+                        let user = new User(con.id, con.username, con.email, con.state, con.theme,con.deleted, fecha);
                         aux.push(user);
                     }
                     if (who_search.getContacts().length > 0) {
@@ -162,6 +175,31 @@ export class User {
                 resolve(aux);
             }, error => {
                 if (error) reject(error)
+            });
+        });
+    }
+
+    delete(dbSessions,dbUsers,user){
+        return new Promise((resolve,reject)=>{
+            dbSessions.on('value', data =>{
+                data.forEach(element => {
+                    let el = element.val();
+                    console.log(el.id)
+                    if((el.id_user1 == user.getId() || el.id_user2 == user.getId()) && !el.user_out.includes(user.getUsername())){
+                        console.log(user.getId())
+                        dbSessions.child(el.id).update({
+                            user_out: user.getUsername(),
+                            last_msg: user.getUsername() + ' ha decidido marcharse',
+                            last_msg_time: new Date().toJSON()
+                        });
+                    }
+                });
+                dbUsers.child(user.getId()).update({
+                    deleted: 1
+                });
+                resolve('ok');
+            }, error => {
+                if(error) reject(error);
             });
         });
     }

@@ -18,6 +18,7 @@ page-log {
         display: flex;
         justify-content: center;
         padding: 1pc 2pc;
+        margin: 2pc 0;
 
         button {
             padding: 1.5pc 1pc;
@@ -32,13 +33,20 @@ page-log {
         }
 
         #login {
-            border-radius: 64px 0 0 64px;
             background: #2cc91e;
         }
+    }
 
+    #info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        > * {
+            margin: 1pc 0;
+        }
         #reg {
-            border-radius: 0 64px 64px 0;
             background: #10a9cf;
+            width: 50%;
         }
     }
 }

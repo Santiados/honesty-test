@@ -12,15 +12,29 @@
     <ion-avatar class="img-welcome">
       <img src="assets/imgs/welcome.png" text-center>
     </ion-avatar>
-    <ion-item>
-      <ion-input type="" placeholder="Ejemplo: Looper" [(ngModel)]="user.username" name="username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.password" name="password"></ion-input>
-    </ion-item>
-    <ion-buttons  id="opt-butts">
-      <button (click)="getUserByCredentials()" ion-button round id="login">Entra</button>
-      <button (click)="getRegisterPage()" ion-button round id="reg">Registrate</button>  
-    </ion-buttons>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>
+          Nombre
+        </ion-label>
+        <ion-input type="text"  [(ngModel)]="user.username" name="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          Contraseña
+        </ion-label>
+        <ion-input type="password"  [(ngModel)]="user.password" name="password"></ion-input>
+      </ion-item>
+      </ion-list>
+      <ion-buttons id="opt-butts">
+        <button (click)="getUserByCredentials()" ion-button round id="login">
+          Entra 
+        </button>
+      </ion-buttons>
+      <div id="info" text-center>
+        ¿Aún no tienes cuenta?
+        <button (click)="getRegisterPage()" ion-button round id="reg">Registrate</button>
+        Si tienes alguna duda, puedes contactarnos a <span><a href="mailto:infohonest@yopmail.com">infohonest@yopmail.com</a></span>
+      </div>
   </form>
 </ion-content>

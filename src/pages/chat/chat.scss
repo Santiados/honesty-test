@@ -40,6 +40,11 @@ page-chat {
 			align-self: flex-end;
 			border-radius: 5px 0px 5px 5px;
 		}
+		.alert {
+			background:orange;
+			align-self: center;
+			border-radius: 5px;
+		}
     }
     #send-msg {
         float: right;

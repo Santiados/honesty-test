@@ -39,7 +39,7 @@ export class ChatPage {
   contact: User = new User();
   _SESSION: Session = new Session();
   _MESSAGES: Message[] = [];
-  msgTemp: string;
+  msgTemp: string = '';
   msgsRF = firebase.database().ref('msgs');
   configOpen = {
     apiKey: '',
@@ -94,7 +94,9 @@ export class ChatPage {
     console.log('ionViewDidLoad ChatPage');
   }
   ionViewDidLeave() {
-    this.OpenSession.disconnect();
+    if(this.OpenSession){
+      this.OpenSession.disconnect();
+    }
   }
 
   initOpen() {

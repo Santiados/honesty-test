@@ -2,7 +2,7 @@
   <ion-navbar color="{{user.theme}}">
     <ion-buttons left>
       <button ion-button color="light" (click)="logOut()" round>
-          Salir
+        Salir
       </button>
     </ion-buttons>
     <ion-buttons end>
@@ -35,5 +35,12 @@
         </ion-item>
       </ion-list>
     </div>
+    <ion-list>
+      <ion-item text-center>
+        <button ion-button color="danger" (tap)="deleteMyAccount()" >
+               Desliza para borrar 
+        </button>
+      </ion-item>
+    </ion-list>
   </ion-card>
 </ion-content>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 import { User } from '../../class/User';
 
@@ -13,16 +13,20 @@ import { LogPage } from '../log/log';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  user: User;
+  user: User = new User('1', 'as', 'd', 'a', 'primary', '3430');
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private platform: Platform,
     private toasCtrl: ToastController,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
-    private log_users: LoggedUserProvider
+    private log_users: LoggedUserProvider,
+    private userService: UserProvider
   ) {
-    this.user = this.navParams.get('user');
+    if (this.navParams.get('user')) {
+      this.user = this.navParams.get('user');
+    }
   }
 
   ionViewDidLoad() {
@@ -30,24 +34,7 @@ export class ProfilePage {
   }
 
   logOut() {
-    let alert = this.alertCtrl.create({
-      title:'¿Seguro quieres salir?',
-      buttons: [
-        {
-          text: 'No',
-          handler: ()=>{
-            this.showNot('Que bien, te quedas');
-          }
-        },
-        {
-          text:'Si',
-          handler:()=>{
-            this.showLoader();
-          }
-        }
-      ]
-    });
-    alert.present();
+    this.showAlert('¿Seguro quieres salir?');
   }
   showLoader() {
     let load = this.loadCtrl.create({
@@ -55,18 +42,51 @@ export class ProfilePage {
       content: 'Un momento...'
     });
     load.onDidDismiss(() => {
-      this.log_users.delete();
+      if (this.platform.is('android') || this.platform.is('ios')) this.log_users.delete();
       this.navCtrl.setRoot(LogPage);
     })
     load.present();
   }
-  
-  showNot(msg){
+
+
+  showAlert(msg, flag = null) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+            this.showNot('Que bien, te quedas');
+          }
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            if (flag) {
+              this.userService.delete(this.user)
+                .then((result) => {
+                  
+                }).catch((err) => {
+                  this.showNot(err.message);
+                });
+            }
+            this.showLoader();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  showNot(msg) {
     let toas = this.toasCtrl.create({
       message: msg,
-      duration:2000
+      duration: 2000
     });
     toas.present();
+  }
+
+  deleteMyAccount() {
+    this.showAlert('¿Seguro quieres borrar tu cuenta?', 'drop');
   }
 
   close() {

@@ -19,6 +19,7 @@ export class UserProvider {
   user: User = User.prototype;
   firebase =  firebase;
   userRF = firebase.database().ref('users');
+  sessionRF = firebase.database().ref('sessions');
   constructor(private _FireAuth: FireAuthProvider) {
     console.log('Hello UserProvider Provider');
   }
@@ -41,6 +42,10 @@ export class UserProvider {
 
   addContact(new_contact,to){
     return this.user.addContact(this.userRF,new_contact,to);
+  }
+
+  delete(user){
+    return user.delete(this.sessionRF,this.userRF,user);
   }
 
 }

@@ -8,9 +8,10 @@ export class Session {
     msgs: Array<any>;
     last_msg: string;
     last_msg_time: string;
-    sessionOpen:string;
+    sessionOpen: string;
+    user_out: string;
     creation: string;
-    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null,last_msg_time = null,sessionOpen = null) {
+    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null, last_msg_time = null, sessionOpen = null, user_out = null) {
         if (id) {
             this.id = id;
         }
@@ -26,11 +27,16 @@ export class Session {
         if (last_msg) {
             this.last_msg = last_msg;
         }
-        if(last_msg_time){
+        if (last_msg_time) {
             this.last_msg_time = last_msg_time;
         }
-        if(sessionOpen){
+        if (sessionOpen) {
             this.sessionOpen = sessionOpen;
+        }
+        if (user_out) {
+            this.user_out = user_out;
+        } else {
+            this.user_out = 'none'
         }
 
         this.msgs = [];
@@ -65,12 +71,20 @@ export class Session {
         this.last_msg_time = last_msg_time;
     }
 
-    getSessionOpen(){
+    getSessionOpen() {
         return this.sessionOpen;
     }
 
-    setSessionOpen(sessionId){
+    setSessionOpen(sessionId) {
         this.sessionOpen = sessionId;
+    }
+
+    getUserOut() {
+        return this.user_out;
+    }
+
+    setUserOut(user_out) {
+        this.user_out = user_out;
     }
 
 
@@ -95,7 +109,7 @@ export class Session {
                     last_msg: this.last_msg,
                     last_msg_time: this.last_msg_time,
                     sessionOpen: this.sessionOpen
-                }, error =>{
+                }, error => {
                     reject(error)
                 });
             }
@@ -111,20 +125,20 @@ export class Session {
 
     }
 
-    getSessionByIdUsers(db,id_user1,id_user2){
+    getSessionByIdUsers(db, id_user1, id_user2) {
         let aux = [];
-        return new Promise((resolve,reject)=>{
-            db.on('value', snap =>{
+        return new Promise((resolve, reject) => {
+            db.on('value', snap => {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user1 && element.val().id_user2 == id_user2 || element.val().id_user1 == id_user2 && element.val().id_user2 == id_user1) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg,el.last_msg_time,el.sessionOpen);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.sessionOpen, el.user_out);
                         aux.push(session);
                     }
                 });
                 resolve(aux);
-            }, error =>{
-                if(error) reject(error);
+            }, error => {
+                if (error) reject(error);
             });
         });
     }
@@ -136,7 +150,7 @@ export class Session {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user || element.val().id_user2 == id_user) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg,el.last_msg_time,el.sessionOpen);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.sessionOpen, el.user_out);
                         aux.unshift(session);
                     }
                 });

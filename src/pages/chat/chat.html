@@ -34,6 +34,9 @@
       <p>{{msg.content}}</p>
       <span>{{msg.creation}}</span>
     </div>
+    <div *ngIf="_SESSION.user_out.includes(contact.username)" class="alert msg" >
+      {{contact.username}} ha decidido marcharse
+    </div>
   </div>
 </ion-content>
 
@@ -41,10 +44,10 @@
   <ion-grid>
     <ion-row>
       <ion-col col-10>
-        <ion-input type="text" placeholder="Escribe algo" [(ngModel)]="msgTemp" name="msgTemp"></ion-input>
+        <ion-input type="text" placeholder="Escribe algo" [(ngModel)]="msgTemp" name="msgTemp"  ></ion-input>
       </ion-col>
-      <ion-col col-2 (click)="sendMsg()">
-        <button ion-button icon-only right id="send-msg">
+      <ion-col  col-2 >
+        <button [disabled]="_SESSION.user_out.includes(contact.username)" ion-button icon-only right id="send-msg" (click)="sendMsg()">
           <ion-icon name="send" icon-right></ion-icon>
         </button>
       </ion-col>

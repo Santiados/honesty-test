@@ -50,8 +50,16 @@ export class FireAuthProvider {
         let current_user = this.db.auth().currentUser;
         this.usuariosRF.child(current_user.uid).on('value', data =>{
           let q = data.val();
-          let user = new User(q.id,q.username,q.email,q.state,q.theme,q.creation);
-          resolve(user);
+          let user = new User(q.id,q.username,q.email,q.state,q.theme,q.deleted,q.creation);
+          if(!user.getDeleted()){
+            resolve(user);
+          }else {
+            let error = {
+              message: 'Esta cuenta ha sido marcada como eliminada, debe contactar con el servicio técnico para recuperarla',
+              type: 1
+            };
+            reject(error);
+          }
         });
       }).catch((err) => {
         reject(err)
