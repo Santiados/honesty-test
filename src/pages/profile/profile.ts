@@ -52,9 +52,11 @@ export class ProfilePage {
   showAlert(msg, flag = null) {
     let alert = this.alertCtrl.create({
       title: msg,
+      cssClass:'alertUser',
       buttons: [
         {
           text: 'No',
+          cssClass:'activeBut',
           handler: () => {
             this.showNot('Que bien, te quedas');
           }

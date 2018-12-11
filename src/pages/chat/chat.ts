@@ -127,13 +127,11 @@ export class ChatPage {
           sessionDisconnected: (e) => {
             e.preventDefault();
             if (e.isDefaultPrevented()) {
-              console.log('aaaaa')
             }
           },
           sessionConnected: (e) => {
             e.preventDefault();
             if (e.isDefaultPrevented()) {
-              console.log('eeeee')
             }
           }
         });
@@ -183,7 +181,6 @@ export class ChatPage {
         this.configOpen.apiKey = data.apiKey;
         this.configOpen.sessionId = this._SESSION.getSessionOpen();
         this.configOpen.token = data.token;
-        console.log(data)
         this.initOpen();
       }, error => {
         this.showNot(error.message);
@@ -225,6 +222,7 @@ export class ChatPage {
   prepareCall() {
     let alert = this.alertCtrl.create({
       title: 'Llamada de ' + this.contact.getUsername(),
+      cssClass:'alertUser',
       buttons: [
         {
           text: 'Pasar',
@@ -235,6 +233,7 @@ export class ChatPage {
         },
         {
           text: 'Coger',
+          cssClass: 'activeBut',
           handler: () => {
             this.sendSignal('accept');
             this.goVideo();

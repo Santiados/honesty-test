@@ -89,3 +89,48 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+
+// my
+@keyframes lol {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+
+  15% {
+    transform: rotate(0.5deg);
+  }
+
+  30% {
+    transform: rotate(2deg);
+    opacity: 0.5;
+  }
+
+  55% {
+    transform: rotate(0.5deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: rotate(2deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.alertUser > div {
+  border-radius: 8px !important;
+  animation-name: lol !important;
+  animation-duration: 500ms;
+  padding: 1pc 0;
+}
+
+.activeBut > *:first-child{
+  background: #c2c0c0 !important;
+  padding: 3px 1pc !important;
+  border-radius: 5px !important;
+  color:white !important;
+}
