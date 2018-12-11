@@ -5,13 +5,13 @@ export class Session {
     username_user1: string;
     id_user2: string;
     username_user2: string;
-    msgs: Array<any>;
     last_msg: string;
     last_msg_time: string;
-    sessionOpen: string;
     user_out: string;
+    sessionOpen: string;
     creation: string;
-    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null, last_msg_time = null, sessionOpen = null, user_out = null) {
+    msgs: Array<any>;
+    constructor(id = null, id_user1 = null, username_user1 = null, id_user2 = null, username_user2 = null, last_msg = null, last_msg_time = null, user_out = null, sessionOpen = null, creation = null) {
         if (id) {
             this.id = id;
         }
@@ -38,6 +38,9 @@ export class Session {
         } else {
             this.user_out = 'none'
         }
+        if (creation) {
+            this.creation = creation;
+        }
 
         this.msgs = [];
     }
@@ -48,9 +51,14 @@ export class Session {
     getId() {
         return this.id;
     }
-
+    getId_User1(){
+        return this.id_user1;
+    }
     setId_User1(id) {
         this.id_user1 = id;
+    }
+    getId_User2(){
+        return this.id_user2;
     }
     setId_User2(id) {
         this.id_user2 = id;
@@ -94,7 +102,6 @@ export class Session {
         return new Promise((resolve, reject) => {
             if (!this.id) {
                 this.creation = new Date().toJSON();
-                this.last_msg_time = this.last_msg_time;
                 db.push(this);
                 db.on('child_added', snap => {
                     this.setId(snap.key);
@@ -132,7 +139,7 @@ export class Session {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user1 && element.val().id_user2 == id_user2 || element.val().id_user1 == id_user2 && element.val().id_user2 == id_user1) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.sessionOpen, el.user_out);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.user_out, el.sessionOpen);
                         aux.push(session);
                     }
                 });
@@ -150,7 +157,7 @@ export class Session {
                 snap.forEach(element => {
                     if (element.val().id_user1 == id_user || element.val().id_user2 == id_user) {
                         let el = element.val();
-                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.sessionOpen, el.user_out);
+                        let session = new Session(el.id, el.id_user1, el.username_user1, el.id_user2, el.username_user2, el.last_msg, el.last_msg_time, el.user_out, el.sessionOpen);
                         aux.unshift(session);
                     }
                 });

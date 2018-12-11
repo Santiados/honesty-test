@@ -42,8 +42,8 @@ export class HomePage {
       this._SESSIONS = [];
       for(let d in ses){
         if(ses[d].id_user1 == this.user.getId() || ses[d].id_user2 == this.user.getId()){
-          let fecha = (new Date(ses[d].last_msg_time).getHours()) + ':'+ ((new Date(ses[d].last_msg_time).getMinutes() < 10) ? '0'+new Date(ses[d].last_msg_time).getMinutes(): new Date(ses[d].last_msg_time).getMinutes() );
-          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha,ses[d].sessionOpen,ses[d].user_out);
+          let fecha_ult_msg = (new Date(ses[d].last_msg_time).getHours()) + ':'+ ((new Date(ses[d].last_msg_time).getMinutes() < 10) ? '0'+new Date(ses[d].last_msg_time).getMinutes(): new Date(ses[d].last_msg_time).getMinutes() );
+          let session = new Session(ses[d].id,ses[d].id_user1,ses[d].username_user1,ses[d].id_user2,ses[d].username_user2,ses[d].last_msg,fecha_ult_msg,ses[d].user_out,ses[d].sessionOpen,ses[d].creation);
           this._SESSIONS.push(session);
         } 
       }
@@ -96,9 +96,10 @@ export class HomePage {
           contact: contact
         });
       });
-
-
   }
+
+
+  
 
   fabBut(fb: FabContainer){
     setTimeout(()=>{

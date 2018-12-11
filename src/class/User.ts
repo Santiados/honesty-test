@@ -157,8 +157,8 @@ export class User {
                 let aux = [];
                 data.forEach(element => {
                     let con = element.val()
-                    if (con.username.includes(search) && con.state == 'publico' && con.username != who_search.getUsername()) {
-                        let fecha = 'Se unio el: ' + (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth()) + '/' + (new Date(con.creation).getFullYear());
+                    if (con.username.toLowerCase().includes(search.toLowerCase()) && con.state == 'publico' && con.username != who_search.getUsername()) {
+                        let fecha = 'Se unio el: ' + (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth()+1) + '/' + (new Date(con.creation).getFullYear());
                         let user = new User(con.id, con.username, con.email, con.state, con.theme,con.deleted, fecha);
                         aux.push(user);
                     }

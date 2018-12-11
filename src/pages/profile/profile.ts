@@ -13,7 +13,7 @@ import { LogPage } from '../log/log';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  user: User = new User('1', 'as', 'd', 'a', 'primary', '3430');
+  user: User = new User('1', 'as', 'd', 'a', 'primary', 0);
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

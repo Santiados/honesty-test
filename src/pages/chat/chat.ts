@@ -71,6 +71,7 @@ export class ChatPage {
       this.contact = this.navParams.get('contact');
       this.getToken();
     }
+    this.OpenSession = null;
 
     this.db.object('msgs').valueChanges().subscribe(msgs => {
       this._MESSAGES = [];
@@ -94,43 +95,65 @@ export class ChatPage {
     console.log('ionViewDidLoad ChatPage');
   }
   ionViewDidLeave() {
-    if(this.OpenSession){
+    if (this.OpenSession) {
+      this.OpenSession.connection.destroy();
       this.OpenSession.disconnect();
+      this.OpenSession.destroy();
+      console.log('desconectado');
     }
   }
 
+
   initOpen() {
-    if (!this.OpenSession) {
-      this.OpenSession = OT.initSession(this.configOpen.apiKey, this.configOpen.sessionId);
-    }
-    this.OpenSession.on("sessionDisconnected", function (event) {
-      event.preventDefault();
-      console.log('ALERT');
-    });
+    this.OpenSession = OT.initSession(this.configOpen.apiKey, this.configOpen.sessionId);
 
-
-    this.OpenSession.on('signal:call', e => {
-      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
-        let alert = this.prepareCall();
-        alert.present();
-      }
-    });
-    this.OpenSession.on('signal:refuse', e => {
-      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
-        this.showNot(this.contact.getUsername() + ' ha pasado de ti');
-      }
-    });
-    this.OpenSession.on('signal:accept', e => {
-      if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
-        this.goVideo();
-      }
-    })
     this.OpenSession.connect(this.configOpen.token, err => {
       if (err) {
         this.connected = false;
         this.showNot(err.message);
       } else {
-        this.connected = true;
+        this.OpenSession.off('connectionCreated connectionDestroyed signal:call signal:refuse signal:accept signal:close');
+        this.OpenSession.on({
+          connectionCreated: (e) => {
+            if (e.connection.connectionId != this.OpenSession.connection.connectionId) {
+              this.connected = true;
+              this.showNot(this.contact.getUsername() + ' se ha conectado');
+            }
+          },
+          connectionDestroyed: (e) => {
+            this.connected = false;
+            this.showNot(this.contact.getUsername() + ' se ha desconectado');
+          },
+          sessionDisconnected: (e) => {
+            e.preventDefault();
+            if (e.isDefaultPrevented()) {
+              console.log('aaaaa')
+            }
+          },
+          sessionConnected: (e) => {
+            e.preventDefault();
+            if (e.isDefaultPrevented()) {
+              console.log('eeeee')
+            }
+          }
+        });
+
+        this.OpenSession.on('signal:call', e => {
+          if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+            let alert = this.prepareCall();
+            alert.present();
+          }
+        });
+        this.OpenSession.on('signal:refuse', e => {
+          if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+            this.showNot(this.contact.getUsername() + ' ha pasado de ti');
+          }
+        });
+        this.OpenSession.on('signal:accept', e => {
+          if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
+            this.goVideo();
+          }
+        });
       }
     });
 
@@ -139,8 +162,32 @@ export class ChatPage {
 
 
   call() {
-    console.log(this.configOpen)
     this.sendSignal('call');
+  }
+
+  getSessionId() {
+    this._HTTP.get(this.url + 'getSessionId')
+      .map(res => res.json())
+      .subscribe(data => {
+        this._SESSION.setSessionOpen(data.sessionId);
+        this.sessionService.persist(this._SESSION);
+      }, error => {
+        this.showNot(error.message);
+      });
+  }
+
+  getToken() {
+    this._HTTP.get(this.url + 'getToken/' + this._SESSION.sessionOpen)
+      .map(res => res.json())
+      .subscribe(data => {
+        this.configOpen.apiKey = data.apiKey;
+        this.configOpen.sessionId = this._SESSION.getSessionOpen();
+        this.configOpen.token = data.token;
+        console.log(data)
+        this.initOpen();
+      }, error => {
+        this.showNot(error.message);
+      });
   }
 
 
@@ -150,23 +197,30 @@ export class ChatPage {
         this._SESSION = new Session(null, this.user.getId(), this.user.getUsername(), this.contact.getId(), this.contact.getUsername());
         this.getSessionId();
       }
-      this._SESSION.setLast_Msg(this.msgTemp);
-      this._SESSION.setLast_Msg_Time(new Date().toJSON());
-      this.sessionService.persist(this._SESSION)
-        .then((result) => {
 
-          let new_msg = new Message(null, this.msgTemp, this.user.getId(), this._SESSION.id);
-          this.msgsService.persist(new_msg)
-            .then((result) => {
-              this.msgTemp = '';
-            }).catch((err) => {
-              this.showNot(err.message);
-            });
-        }).catch((err) => {
-          this.showNot(err.message);
-        });
+      setTimeout(() => {
+        this._SESSION.setLast_Msg(this.msgTemp);
+        this._SESSION.setLast_Msg_Time(new Date().toJSON());
+        this.sessionService.persist(this._SESSION)
+          .then((result) => {
+            let new_msg = new Message(null, this.msgTemp, this.user.getId(), this._SESSION.id);
+            this.msgsService.persist(new_msg)
+              .then((result) => {
+                this.msgTemp = '';
+                this.getToken();
+              }).catch((err) => {
+                this.showNot(err.message);
+              });
+          })
+          .catch((err) => {
+            this.showNot(err.message);
+          });
+      }, 100);
+
+
     }
   }
+
 
   prepareCall() {
     let alert = this.alertCtrl.create({
@@ -212,36 +266,7 @@ export class ChatPage {
     });
   }
 
-  getSessionId() {
-    this._HTTP.get(this.url + 'getSessionId')
-      .map(res => res.json())
-      .subscribe(data => {
-        this.configOpen = data;
-        console.log(JSON.stringify(data))
-        this._SESSION.setSessionOpen(data.sessionId);
-        this.sessionService.persist(this._SESSION)
-          .then((res) => {
-            console.log(res)
-            this.getToken();
-          })
-          .catch((e) => {
-            this.showNot(e.message)
-          });
-      }, error => {
-        this.showNot(error.message);
-      });
-  }
 
-  getToken() {
-    this._HTTP.get(this.url + 'getToken/' + this._SESSION.sessionOpen)
-      .map(res => res.json())
-      .subscribe(data => {
-        this.configOpen = data;
-        this.initOpen();
-      }, error => {
-        this.showNot(error.message);
-      });
-  }
 
   showNot(msg) {
     let toas = this.toasCtrl.create({

@@ -60,8 +60,6 @@ export class ContactsPage {
   }
 
   createChatRoom(user: User, contact: User) {
-    this.trace(contact)
-    this.trace(user)
     this.sessionService.getSessionByUsers(user.getId(), contact.getId())
       .then((resultSession: Session[]) => {
         this.userService.getUserById(contact.getId())
