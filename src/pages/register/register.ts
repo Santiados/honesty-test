@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController , ToastController, LoadingController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ToastController, LoadingController } from 'ionic-angular';
 
 
 import { UserProvider } from '../../providers/user/user';
@@ -21,49 +21,52 @@ import { HomePage } from '../../pages/home/home';
 })
 export class RegisterPage {
 
-  user =  {
-    username:'',
-    password:'',
+  user = {
+    username: '',
+    password: '',
     state: 'publico'
   }
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     private viewCtrl: ViewController,
     private toasCtrl: ToastController,
     private userService: UserProvider,
     private loadCtrl: LoadingController
-    ) {
+  ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  registrarUsuario(){
-    let datosUsuario = this.user;
-    this.userService.persist(datosUsuario)
-    .then((result) => {
-      console.log(result);
-      let load = this.loadCtrl.create({
-        content: 'haciendo hueco...'
-      });
-      load.present();
-      setTimeout(()=>{
-        load.dismiss();
-        this.navCtrl.push(HomePage,{
-          data:result
+  registrarUsuario() {
+    if (this.user.username.trim() != '' && this.user.password.trim() != '') {
+      let datosUsuario = this.user;
+      this.userService.persist(datosUsuario)
+        .then((result) => {
+          console.log(result);
+          let load = this.loadCtrl.create({
+            content: 'haciendo hueco...'
+          });
+          load.present();
+          setTimeout(() => {
+            load.dismiss();
+            this.navCtrl.push(HomePage, {
+              data: result
+            });
+          }, 2000);
+        }).catch((err) => {
+          this.showNot(err);
+          console.log('reger',err)
         });
-      },2000);
-    }).catch((err) => {
-      this.showNot(err);
-    });
+    }
   }
 
-  Jstr(msg:any,flag = null){
-    if(flag){
+  Jstr(msg: any, flag = null) {
+    if (flag) {
       console.error(JSON.stringify(msg));
-    }else {
+    } else {
       console.log(JSON.stringify(msg));
     }
   }
@@ -76,7 +79,7 @@ export class RegisterPage {
   }
 
 
-  close(){
+  close() {
     this.viewCtrl.dismiss();
   }
 }

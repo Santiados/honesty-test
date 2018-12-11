@@ -53,18 +53,21 @@ export class LogPage {
   }
 
   getUserByCredentials() {
-    this.userService.getUserByCredentials(this.user)
-      .then((result: User) => {
-        this.showLoader();
-        if (this.platform.is('android') || this.platform.is('ios')) {
-          this.log_users.insertUsers(this.user.username, this.user.password);
-        }
-        this.navCtrl.push(HomePage, {
-          data: result
+    if (this.user.username.trim() != '' && this.user.password.trim() != '') {
+      this.userService.getUserByCredentials(this.user)
+        .then((result: User) => {
+          this.showLoader();
+          if (this.platform.is('android') || this.platform.is('ios')) {
+            this.log_users.insertUsers(this.user.username, this.user.password);
+          }
+          this.navCtrl.push(HomePage, {
+            data: result
+          });
+        }).catch((err) => {
+          this.showNot(err.message);
+          console.log('er', err)
         });
-      }).catch((err) => {
-        this.showNot(err.message);
-      });
+    }
   }
 
   getRegisterPage() {
@@ -78,7 +81,7 @@ export class LogPage {
     regPage.present();
   }
 
-  showLoader(){
+  showLoader() {
     let load = this.loadCtrl.create({
       duration: 500,
       content: 'Un momento...'

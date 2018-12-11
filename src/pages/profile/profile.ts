@@ -55,13 +55,6 @@ export class ProfilePage {
       cssClass:'alertUser',
       buttons: [
         {
-          text: 'No',
-          cssClass:'activeBut',
-          handler: () => {
-            this.showNot('Que bien, te quedas');
-          }
-        },
-        {
           text: 'Si',
           handler: () => {
             if (flag) {
@@ -73,6 +66,12 @@ export class ProfilePage {
                 });
             }
             this.showLoader();
+          }
+        },{
+          text: 'No',
+          cssClass:'activeBut',
+          handler: () => {
+            this.showNot('Que bien, te quedas');
           }
         }
       ]
