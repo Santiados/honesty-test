@@ -36,10 +36,15 @@ export class VideoChatPage {
 
   startCall() {
 
-    
+    this.OpenSession.off('streamCreated');
 
-    this.OpenSession.on('streamCreated', (event) => {
-      event.preventDefault();
+    this.OpenSession.on({
+      streamDestroyed: (e) => {
+        
+      },
+      streamCreated: (e) => {
+        console.log('nue',e)
+      }
     });
 
     // Subscribe to a newly created stream
@@ -81,7 +86,6 @@ export class VideoChatPage {
   // Ends call
   endCall() {
     if (!!this.OpenSession) {
-      // this.OpenSession.disconnect();
       if(this.sub){
         this.OpenSession.unsubscribe(this.sub);
       }

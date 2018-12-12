@@ -1,18 +1,32 @@
 page-video-chat {
     #content {
+        background: #c4c4c4;
         > div {
             border-radius: 2pc;
         }
         #publisher {
             position: absolute;
-            bottom: 2pc;
-            right: 1pc;
+            top: 2pc;
+            right: 1.5pc;
             width: 10pc;
             height: 8pc;
             z-index: 100;
         }
         #subscriber {
             height: 100%;
+        }
+        #endcall {
+            position: absolute;
+            bottom: 3pc;
+            z-index: 1000;
+            left: 50%;
+            right: 50%;
+            display: flex !important;
+            justify-content: center !important;
+            > button {
+                display:flex;
+                align-self: center;
+            }
         }
     }
 }

@@ -5,3 +5,9 @@ PLUGINS
 
 
 npm install firebase angularfire2 --save
+
+
+npm install @ngx-translate/core @ngx-translate/http-loader --save
+
+npm i @ngx-translate/core@9.1.1
+

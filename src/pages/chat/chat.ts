@@ -24,6 +24,7 @@ import { UserProvider } from '../../providers/user/user';
 
 import { map } from 'rxjs/operators';
 import { VideoChatPage } from '../video-chat/video-chat';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var OT: any;
 
@@ -58,7 +59,8 @@ export class ChatPage {
     private sessionService: SesionProvider,
     private userService: UserProvider,
     private _HTTP: Http,
-    private readonly db: AngularFireDatabase
+    private readonly db: AngularFireDatabase,
+    private translate: TranslateService
   ) {
     if (!this.navParams.get('session')) {
       console.log('no session')
@@ -71,7 +73,6 @@ export class ChatPage {
       this.contact = this.navParams.get('contact');
       this.getToken();
     }
-    this.OpenSession = null;
 
     this.db.object('msgs').valueChanges().subscribe(msgs => {
       this._MESSAGES = [];
@@ -112,17 +113,17 @@ export class ChatPage {
         this.connected = false;
         this.showNot(err.message);
       } else {
-        this.OpenSession.off('connectionCreated connectionDestroyed signal:call signal:refuse signal:accept signal:close');
+        this.OpenSession.off('connectionCreated connectionDestroyed streamCreated signal:call signal:refuse signal:accept signal:close');
         this.OpenSession.on({
           connectionCreated: (e) => {
             if (e.connection.connectionId != this.OpenSession.connection.connectionId) {
               this.connected = true;
-              this.showNot(this.contact.getUsername() + ' se ha conectado');
+              this.showNot(this.contact.getUsername() + this.trans('chatpage.haconectado'));
             }
           },
           connectionDestroyed: (e) => {
             this.connected = false;
-            this.showNot(this.contact.getUsername() + ' se ha desconectado');
+            this.showNot(this.contact.getUsername() + this.trans('chatpage.hadesconectado'));
           },
           sessionDisconnected: (e) => {
             e.preventDefault();
@@ -144,7 +145,7 @@ export class ChatPage {
         });
         this.OpenSession.on('signal:refuse', e => {
           if (e.from.connectionId != this.OpenSession.connection.id && this.OpenSession) {
-            this.showNot(this.contact.getUsername() + ' ha pasado de ti');
+            this.showNot(this.contact.getUsername() + this.trans('chatpage.hapasado'));
           }
         });
         this.OpenSession.on('signal:accept', e => {
@@ -221,18 +222,18 @@ export class ChatPage {
 
   prepareCall() {
     let alert = this.alertCtrl.create({
-      title: 'Llamada de ' + this.contact.getUsername(),
+      title: this.trans('chatpage.llamadade') + this.contact.getUsername(),
       cssClass:'alertUser',
       buttons: [
         {
-          text: 'Pasar',
+          text: this.trans('chatpage.pasarllamada'),
           handler: () => {
             this.sendSignal('refuse');
-            this.showNot('Has pasado de ' + this.contact.getUsername());
+            this.showNot(this.trans('chatpage.haspasadode') + this.contact.getUsername());
           }
         },
         {
-          text: 'Coger',
+          text: this.trans('chatpage.cogerllamada'),
           cssClass: 'activeBut',
           handler: () => {
             this.sendSignal('accept');
@@ -249,7 +250,7 @@ export class ChatPage {
       OpenSession: this.OpenSession
     });
     modal.onDidDismiss(() => {
-      this.showNot('Llamada terminada');
+      this.showNot(this.trans('chatpage.finllamada'));
     });
     modal.present();
   }
@@ -273,6 +274,16 @@ export class ChatPage {
       duration: 2000
     });
     toas.present();
+  }
+
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
   }
 
 }

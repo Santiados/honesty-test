@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-toolbar color="add-contact">
-    <ion-title>Nuevo contacto</ion-title>
+    <ion-title>{{ 'addcontactpage.title' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="close()" icon-only>
         <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>
@@ -24,14 +24,14 @@
     (ionCancel)="onCancel($event)">
   </ion-searchbar>
   <ion-list>
-    <ion-item *ngIf="_USERS.length == 0 && mySearch!=''" >Nanai, no hay usuarios con ese nombre</ion-item>
-    <ion-item *ngIf="_USERS.length == 0 && mySearch==''" >Recuerda, desliza hacia la izquierda</ion-item>
+    <ion-item *ngIf="_USERS.length == 0 && mySearch!=''" >{{ 'addcontactpage.nanaiusuarios' | translate }}</ion-item>
+    <ion-item *ngIf="_USERS.length == 0 && mySearch==''" >{{ 'addcontactpage.desliza' | translate }}</ion-item>
       <ion-item *ngFor="let user of _USERS; let i = index" class="found-user" (click)="addToMyContacts(user,i)">
         <ion-avatar item-left>
           <img src="https://api.adorable.io/avatars/75/{{user.id}}">
         </ion-avatar>
         <h2>{{user.username}}</h2>
-        <span>{{user.creation}}</span>
+        <span>{{ 'addcontactpage.unio' | translate }} {{user.creation}}</span>
       </ion-item>
   </ion-list>
   <ion-fab bottom right>

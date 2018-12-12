@@ -12,11 +12,9 @@ import { AddContactPage } from '../../pages/add-contact/add-contact';
 
 import { Session } from '../../class/Session';
 import { User } from '../../class/User';
-import { Message } from '../../class/Message';
-
-import * as firebase from 'firebase/app';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ProfilePage } from '../profile/profile';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-home',
@@ -35,7 +33,8 @@ export class HomePage {
     private sessionService: SesionProvider,
     private userService: UserProvider,
     private msgService: MessageProvider,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private translate: TranslateService
   ) {
     this.user = this.paramCtrl.data.data;
     this.db.object('sessions').valueChanges().subscribe( ses =>{
@@ -55,18 +54,12 @@ export class HomePage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('hola');
-  }
 
   showProfile(user:User){
-    console.log('dasd')
     let modal = this.modalCtrl.create(ProfilePage,{
       user:this.user
     });
-
-    modal.present()
-
+    modal.present();
   }
 
   getMyContacts() {

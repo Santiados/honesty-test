@@ -6,6 +6,7 @@ import { User } from '../../class/User';
 import { UserProvider } from '../../providers/user/user';
 import { LoggedUserProvider } from '../../providers/logged-user/logged-user';
 import { LogPage } from '../log/log';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,8 @@ export class ProfilePage {
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     private log_users: LoggedUserProvider,
-    private userService: UserProvider
+    private userService: UserProvider,
+    private translate: TranslateService
   ) {
     if (this.navParams.get('user')) {
       this.user = this.navParams.get('user');
@@ -34,12 +36,12 @@ export class ProfilePage {
   }
 
   logOut() {
-    this.showAlert('¿Seguro quieres salir?');
+    this.showAlert(this.trans('profilepage.segurosalir'));
   }
   showLoader() {
     let load = this.loadCtrl.create({
       duration: 500,
-      content: 'Un momento...'
+      content: this.trans('messages.momento')
     });
     load.onDidDismiss(() => {
       if (this.platform.is('android') || this.platform.is('ios')) this.log_users.delete();
@@ -52,26 +54,26 @@ export class ProfilePage {
   showAlert(msg, flag = null) {
     let alert = this.alertCtrl.create({
       title: msg,
-      cssClass:'alertUser',
+      cssClass: 'alertUser',
       buttons: [
         {
-          text: 'Si',
+          text: this.trans('messages.si'),
           handler: () => {
             if (flag) {
               this.userService.delete(this.user)
                 .then((result) => {
-                  
+
                 }).catch((err) => {
-                  this.showNot(err.message);
+                  this.showNot(this.trans('errors.' + err.message));
                 });
             }
             this.showLoader();
           }
-        },{
-          text: 'No',
-          cssClass:'activeBut',
+        }, {
+          text: this.trans('messages.no'),
+          cssClass: 'activeBut',
           handler: () => {
-            this.showNot('Que bien, te quedas');
+            this.showNot(this.trans('profilepage.bien'));
           }
         }
       ]
@@ -87,7 +89,17 @@ export class ProfilePage {
   }
 
   deleteMyAccount() {
-    this.showAlert('¿Seguro quieres borrar tu cuenta?', 'drop');
+    this.showAlert(this.trans('profilepage.seguroborrar'), 'drop');
+  }
+
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
   }
 
   close() {

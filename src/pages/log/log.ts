@@ -8,6 +8,8 @@ import { UserProvider } from '../../providers/user/user';
 import { User } from '../../class/User';
 import { LoggedUserProvider } from '../../providers/logged-user/logged-user';
 
+import { TranslateService } from '@ngx-translate/core';
+
 /**
  * Generated class for the LogPage page.
  *
@@ -27,6 +29,7 @@ export class LogPage {
     password: ''
   }
   constructor(
+    private translate: TranslateService,
     private platform: Platform,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -64,8 +67,11 @@ export class LogPage {
             data: result
           });
         }).catch((err) => {
-          this.showNot(err.message);
-          console.log('er', err)
+          this.translate.get('errors.' + err.code).subscribe(
+            value => {
+              this.showNot(value);
+            }
+          );
         });
     }
   }
@@ -83,8 +89,8 @@ export class LogPage {
 
   showLoader() {
     let load = this.loadCtrl.create({
-      duration: 500,
-      content: 'Un momento...'
+      duration: 100,
+      content: this.trans('messages.momento')
     });
     load.present();
   }
@@ -95,6 +101,16 @@ export class LogPage {
       duration: 2000
     });
     toas.present();
+  }
+
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
   }
 
 }

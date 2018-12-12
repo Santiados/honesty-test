@@ -1,0 +1,17 @@
+{
+    "logpage": {
+        "nombre": "Name",
+        "pass":"Password",
+        "login": "Log in",
+        "nocuenta": "¿You dont have an account yet?",
+        "registra": "Sign up",
+        "ayuda": "If you have questions, you can contact us at "
+    },
+    "errors": {
+        "auth/user-not-found": "There is no user record corresponding to this identifier. The user may have been deleted.",
+        "auth/wrong-password": "The password is invalid",
+        "auth/weak-password": "Password should be at least 6 characters",
+        "auth/invalid-email": "El nombre de usuario contiene caracteres no válidos",
+        "auth/email-already-in-use": "This nickname is already in use by another account"
+    }
+}

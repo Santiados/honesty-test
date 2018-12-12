@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController, T
 import { User } from '../../class/User';
 
 import { UserProvider } from '../../providers/user/user';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class AddContactPage {
     private viewCtrl: ViewController,
     private alertCtrl: AlertController,
     private toasCtrl: ToastController,
-    private userService: UserProvider
+    private userService: UserProvider,
+    private translate: TranslateService
     ) {
       this.user = this.navParams.get('user');
       }
@@ -37,7 +39,7 @@ export class AddContactPage {
       .then((result: User[]) => {
         this._USERS = result;
       }).catch((err) => {
-        
+        this.showNot(this.trans('errors.' + err.message));
       });
     }
     
@@ -49,18 +51,17 @@ export class AddContactPage {
 
   addToMyContacts(user,index){
     let alert = this.alertCtrl.create({
-      message: '¿Quieres añadir a '+ user.username + '?',
+      message: this.trans('addcontactpage.seguroadd') + user.username + '?',
       buttons: [
         {
-          text: 'No',
-          cssClass:'cancelar',
+          text: this.trans('messages.no'),
           handler:() => {
-            this.showNot('Usuario no añadido');
+            this.showNot(this.trans('addcontactpage.usernoadd'));
           }
         },
         {
-          text: 'Si, vamos',
-          cssClass: 'adelante',
+          text: this.trans('messages.si2'),
+          cssClass: 'activeBut',
           handler: () =>{
             this.userService.addContact(user,this.user)
             .then((result) => {
@@ -68,7 +69,7 @@ export class AddContactPage {
             }).catch((err) => {
               this.showNot(err.message);
             });
-            this.showNot(user.username + ' añadido');
+            this.showNot(user.username + this.trans('addcontactpage.useradd'));
           }
         }
       ]
@@ -86,6 +87,16 @@ export class AddContactPage {
       duration: 1000
     });
     toas.present();
+  }
+
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
   }
 
 }

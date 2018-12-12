@@ -8,7 +8,7 @@
 
   <ion-navbar color="contacts">
     <ion-toolbar>
-      <ion-title>Mis contactos</ion-title>
+      <ion-title>{{ 'contactspage.title' | translate }}</ion-title>
       <ion-buttons end>
         <button ion-button (click)="addContact()">
           <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
@@ -23,7 +23,7 @@
 <ion-content padding id="content">
   <ion-list>
     <ion-item *ngIf="_CONTACTS.length == 0">
-      Honesty es más divertido con amigos
+        {{ 'contactspage.honestamigos' | translate }}
     </ion-item>
     <ion-item (click)="createChatRoom(user,contact)" *ngFor="let contact of _CONTACTS">
       <ion-avatar item-left>

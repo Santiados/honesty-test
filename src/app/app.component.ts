@@ -12,6 +12,7 @@ import { VideoChatPage } from '../pages/video-chat/video-chat';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { LoggedUserProvider } from '../providers/logged-user/logged-user';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,11 +25,17 @@ export class MyApp {
     statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private Sqlite: SQLite,
-    private log_users: LoggedUserProvider
+    private log_users: LoggedUserProvider,
+    private translate: TranslateService
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      
+
+      this.translate.setDefaultLang('es');
+      this.translate.use('es');
+
       if (platform.is('android') || platform.is('ios')) {
         statusBar.styleLightContent();
         this.createDatabase();
@@ -37,6 +44,7 @@ export class MyApp {
         this.splashScreen.hide();
         this.rootPage = LogPage;
       }
+
     });
   }
 
@@ -49,7 +57,7 @@ export class MyApp {
         this.log_users.setDB(db);
         return this.log_users.userLoggedTable();
       })
-      .then(()=>{
+      .then(() => {
         this.splashScreen.hide();
         this.rootPage = LogPage;
       })

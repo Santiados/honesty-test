@@ -14,11 +14,10 @@
 
 <ion-content padding id="content">
   <ion-item *ngIf="_SESSIONS.length == 0">
-    No tienes conversaciones recientes,
-    prueba a añadir nuevos contactos con el boton de abajo.
+      {{ 'homepage.nocon' | translate }}
   </ion-item>
   <ion-list *ngIf="_SESSIONS.length > 0">
-    <h6>Estas son tus conversaciones recientes</h6>
+    <h6>{{ 'homepage.recentcon' | translate }}</h6>
     <ion-item *ngFor="let session of _SESSIONS" (click)="goSession(session)">
       <ion-avatar item-start>
         <img src="https://api.adorable.io/avatars/75/{{session.username_user1 == user.username ? session.id_user2: session.id_user1}}">

@@ -15,26 +15,26 @@
     <ion-list>
       <ion-item>
         <ion-label floating>
-          Nombre
+          {{ 'logpage.nombre' | translate}}
         </ion-label>
         <ion-input type="text"  [(ngModel)]="user.username" name="username"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          Contraseña
+          {{ 'logpage.pass' | translate}}
         </ion-label>
         <ion-input type="password"  [(ngModel)]="user.password" name="password"></ion-input>
       </ion-item>
       </ion-list>
       <ion-buttons id="opt-butts">
         <button (click)="getUserByCredentials()" ion-button round id="login">
-          Entra 
+          {{ 'logpage.login' | translate}}
         </button>
       </ion-buttons>
       <div id="info" text-center>
-        ¿Aún no tienes cuenta?
-        <button (click)="getRegisterPage()" ion-button round id="reg">Registrate</button>
-        Si tienes alguna duda, puedes contactarnos a <span><a href="mailto:infohonest@yopmail.com">infohonest@yopmail.com</a></span>
+        {{ 'logpage.nocuenta' | translate}}
+        <button (click)="getRegisterPage()" ion-button round id="reg">{{ 'logpage.registra' | translate}}</button>
+        {{ 'logpage.ayuda' | translate }}<span><a href="mailto:infohonest@yopmail.com">infohonest@yopmail.com</a></span>
       </div>
   </form>
 </ion-content>

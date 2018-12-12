@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, ViewController, ToastController, L
 import { UserProvider } from '../../providers/user/user';
 
 import { HomePage } from '../../pages/home/home';
+import { TranslateService } from '@ngx-translate/core';
 
 
 /**
@@ -32,7 +33,8 @@ export class RegisterPage {
     private viewCtrl: ViewController,
     private toasCtrl: ToastController,
     private userService: UserProvider,
-    private loadCtrl: LoadingController
+    private loadCtrl: LoadingController,
+    private translate: TranslateService
   ) {
   }
 
@@ -47,7 +49,7 @@ export class RegisterPage {
         .then((result) => {
           console.log(result);
           let load = this.loadCtrl.create({
-            content: 'haciendo hueco...'
+            content: this.trans('registerpage.nuevo')
           });
           load.present();
           setTimeout(() => {
@@ -57,8 +59,7 @@ export class RegisterPage {
             });
           }, 2000);
         }).catch((err) => {
-          this.showNot(err);
-          console.log('reger',err)
+          this.showNot(this.trans('errors.' + err.code));
         });
     }
   }
@@ -78,6 +79,15 @@ export class RegisterPage {
     toas.present();
   }
 
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
+  }
 
   close() {
     this.viewCtrl.dismiss();

@@ -8,11 +8,11 @@
 
   <ion-toolbar color="secondary">
     <ion-buttons right>
-      <button ion-button round color="light" (click)="close()" >
+      <button ion-button round color="light" (click)="close()">
         <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>
-      </button>  
+      </button>
     </ion-buttons>
-    <ion-title>Registrate</ion-title>
+    <ion-title>{{ 'registerpage.title' | translate }}</ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -20,28 +20,30 @@
 
 
 <ion-content padding>
-    <form (ngSubmit)="registrarUsuario()" >
-      <h3 text-center>Hola!</h3>
-      <ion-avatar class="img-welcome">
-        <img src="assets/imgs/chat.png" text-center>
-      </ion-avatar>
-      <p text-center>Esto es Honesty Chat, aqui podrás compartir mensajes de forma instantánea y segura</p>
-      <h6 text-center>Para poder empezar a chatear con gente de todo el mundo, primero debes registrarte</h6>
-      <ion-item>
-        <ion-input type="" placeholder="Ejemplo: Looper" [(ngModel)]="user.username" name="username"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.password" name="password"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>¿Cómo quieres que sea tu perfil?</ion-label>
-        <ion-select [(ngModel)]="user.state" name="state" >
-          <ion-option value="publico" >Público</ion-option>
-          <ion-option value="private" >Privado</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-buttons id="opt-butts">
-          <button ion-button round>Registrarme</button>
-      </ion-buttons>
-    </form>
-  </ion-content>
+  <form (ngSubmit)="registrarUsuario()">
+    <h3 text-center>{{ 'registerpage.hello' | translate }}</h3>
+    <ion-avatar class="img-welcome">
+      <img src="assets/imgs/chat.png" text-center>
+    </ion-avatar>
+    <p text-center>{{ 'registerpage.t1' | translate }}</p>
+    <h6 text-center>{{ 'registerpage.t2' | translate }}</h6>
+    <ion-item>
+      <ion-label floating>{{ 'registerpage.name' | translate }}</ion-label>
+      <ion-input type="text" [(ngModel)]="user.username" name="username"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label floating>{{ 'registerpage.pass' | translate }}</ion-label>
+      <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'registerpage.profile.title' | translate }}</ion-label>
+      <ion-select [(ngModel)]="user.state" name="state" cancelText="{{ 'registerpage.profile.cancel' | translate }}">
+        <ion-option value="publico">{{ 'registerpage.profile.publico' | translate }}</ion-option>
+        <ion-option value="private">{{ 'registerpage.profile.privado' | translate }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-buttons id="opt-butts">
+      <button ion-button round>{{ 'registerpage.register' | translate }}</button>
+    </ion-buttons>
+  </form>
+</ion-content>

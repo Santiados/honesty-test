@@ -18,6 +18,7 @@ import { SesionProvider } from '../../providers/sesion/sesion';
 import * as firebase from 'firebase/app';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Session } from '../../class/Session';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -36,7 +37,8 @@ export class ContactsPage {
     private toasCtrl: ToastController,
     private userService: UserProvider,
     private sessionService: SesionProvider,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private translate: TranslateService
   ) {
     this.user = this.navParams.get('user');
     this.usersRF.child(this.user.getId() + '/contacts').on('value', data => {
@@ -101,6 +103,16 @@ export class ContactsPage {
   trace(e) {
     console.log('trace-contacts', e)
     console.log(ContactsPage.constructor.name)
+  }
+
+  trans(msg) {
+    let re = '';
+    this.translate.get(msg).subscribe(
+      value => {
+        re = value;
+      }
+    );
+    return re;
   }
 
 }

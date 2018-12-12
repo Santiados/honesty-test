@@ -30,6 +30,16 @@ import { Http, HttpModule } from '@angular/http';
 import { SQLite } from '@ionic-native/sqlite';
 import { LoggedUserProvider } from '../providers/logged-user/logged-user';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -49,7 +59,15 @@ import { LoggedUserProvider } from '../providers/logged-user/logged-user';
     AngularFireModule.initializeApp(fireConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    HttpModule
+    HttpModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

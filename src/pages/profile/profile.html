@@ -2,7 +2,7 @@
   <ion-navbar color="{{user.theme}}">
     <ion-buttons left>
       <button ion-button color="light" (click)="logOut()" round>
-        Salir
+        {{ 'profilepage.salir' | translate }}
       </button>
     </ion-buttons>
     <ion-buttons end>
@@ -26,11 +26,11 @@
         <ion-item>{{user.username}}</ion-item>
         <ion-item>{{user.email}}</ion-item>
         <ion-item>
-          <ion-label>Tema favorito</ion-label>
-          <ion-select [(ngModel)]="user.theme">
-            <ion-option value="primary">Azul Bueno</ion-option>
-            <ion-option value="secondary">Verde Honesty</ion-option>
-            <ion-option value="danger">Rojo peligro</ion-option>
+          <ion-label>{{ 'profilepage.favtema' | translate }}</ion-label>
+          <ion-select [(ngModel)]="user.theme" cancelText="{{ 'profilepage.cancel' | translate }}">
+            <ion-option value="primary">{{ 'profilepage.azul' | translate }}</ion-option>
+            <ion-option value="secondary">{{ 'profilepage.verde' | translate }}</ion-option>
+            <ion-option value="danger">{{ 'profilepage.rojo' | translate }}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
@@ -38,7 +38,7 @@
     <ion-list>
       <ion-item text-center>
         <button ion-button color="danger" (tap)="deleteMyAccount()" >
-               Borrar mi perfil
+            {{ 'profilepage.borrarperfil' | translate }}
         </button>
       </ion-item>
     </ion-list>
