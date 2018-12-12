@@ -33,17 +33,18 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       
 
-      this.translate.setDefaultLang('es');
-      this.translate.use('es');
+      this.translate.setDefaultLang('en');
+      this.translate.use('en');
 
       if (platform.is('android') || platform.is('ios')) {
         statusBar.styleLightContent();
-        this.createDatabase();
       } else {
         statusBar.styleDefault();
-        this.splashScreen.hide();
-        this.rootPage = LogPage;
       }
+
+      
+      this.splashScreen.hide();
+      this.rootPage = LogPage;
 
     });
   }

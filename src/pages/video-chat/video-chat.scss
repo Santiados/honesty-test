@@ -1,15 +1,12 @@
 page-video-chat {
     #content {
         background: #c4c4c4;
-        > div {
-            border-radius: 2pc;
-        }
         #publisher {
             position: absolute;
             top: 2pc;
             right: 1.5pc;
-            width: 10pc;
-            height: 8pc;
+            width: 8pc;
+            height: 10pc;
             z-index: 100;
         }
         #subscriber {

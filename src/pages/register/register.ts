@@ -6,6 +6,7 @@ import { UserProvider } from '../../providers/user/user';
 
 import { HomePage } from '../../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
 
 /**
@@ -34,7 +35,8 @@ export class RegisterPage {
     private toasCtrl: ToastController,
     private userService: UserProvider,
     private loadCtrl: LoadingController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storate: Storage
   ) {
   }
 
@@ -47,7 +49,8 @@ export class RegisterPage {
       let datosUsuario = this.user;
       this.userService.persist(datosUsuario)
         .then((result) => {
-          console.log(result);
+          delete this.user.state;
+          this.storate.set('mio',this.user);
           let load = this.loadCtrl.create({
             content: this.trans('registerpage.nuevo')
           });

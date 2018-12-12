@@ -4,9 +4,9 @@ import { IonicPage, NavController, NavParams, ToastController, AlertController, 
 import { User } from '../../class/User';
 
 import { UserProvider } from '../../providers/user/user';
-import { LoggedUserProvider } from '../../providers/logged-user/logged-user';
 import { LogPage } from '../log/log';
 import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -22,8 +22,8 @@ export class ProfilePage {
     private toasCtrl: ToastController,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
-    private log_users: LoggedUserProvider,
     private userService: UserProvider,
+    private storage: Storage,
     private translate: TranslateService
   ) {
     if (this.navParams.get('user')) {
@@ -44,8 +44,11 @@ export class ProfilePage {
       content: this.trans('messages.momento')
     });
     load.onDidDismiss(() => {
-      if (this.platform.is('android') || this.platform.is('ios')) this.log_users.delete();
+      this.storage.remove('mio');
       this.navCtrl.setRoot(LogPage);
+      this.navCtrl.getViews().forEach((e)=>{
+        console.log(e.name)
+      });
     })
     load.present();
   }

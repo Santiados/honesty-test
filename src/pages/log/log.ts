@@ -6,10 +6,9 @@ import { HomePage } from '../../pages/home/home';
 
 import { UserProvider } from '../../providers/user/user';
 import { User } from '../../class/User';
-import { LoggedUserProvider } from '../../providers/logged-user/logged-user';
 
 import { TranslateService } from '@ngx-translate/core';
-
+import { Storage } from "@ionic/storage";
 /**
  * Generated class for the LogPage page.
  *
@@ -37,18 +36,18 @@ export class LogPage {
     private modalCtrl: ModalController,
     private loadCtrl: LoadingController,
     private userService: UserProvider,
-    private log_users: LoggedUserProvider
+    private storage: Storage
   ) {
-    if (this.platform.is('android') || this.platform.is('ios')) {
-      this.log_users.getLoggedUser()
-        .then((result) => {
-          this.user.username = result[0].username;
-          this.user.password = result[0].password;
+    this.storage.get('mio')
+      .then((val) => {
+        if (val) {
+          this.user = val;
           this.getUserByCredentials();
-        }).catch((err) => {
-          console.error(JSON.stringify(err));
-        });
-    }
+        }
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err, undefined, 2));
+      })
   }
 
   ionViewDidLoad() {
@@ -60,9 +59,7 @@ export class LogPage {
       this.userService.getUserByCredentials(this.user)
         .then((result: User) => {
           this.showLoader();
-          if (this.platform.is('android') || this.platform.is('ios')) {
-            this.log_users.insertUsers(this.user.username, this.user.password);
-          }
+          this.storage.set('mio', this.user);
           this.navCtrl.push(HomePage, {
             data: result
           });

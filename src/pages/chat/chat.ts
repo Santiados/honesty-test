@@ -97,9 +97,7 @@ export class ChatPage {
   }
   ionViewDidLeave() {
     if (this.OpenSession) {
-      this.OpenSession.connection.destroy();
       this.OpenSession.disconnect();
-      this.OpenSession.destroy();
       console.log('desconectado');
     }
   }
@@ -182,7 +180,9 @@ export class ChatPage {
         this.configOpen.apiKey = data.apiKey;
         this.configOpen.sessionId = this._SESSION.getSessionOpen();
         this.configOpen.token = data.token;
-        this.initOpen();
+        if(!this.OpenSession){
+          this.initOpen();
+        }
       }, error => {
         this.showNot(error.message);
       });
@@ -271,7 +271,8 @@ export class ChatPage {
   showNot(msg) {
     let toas = this.toasCtrl.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
+      position: 'top'
     });
     toas.present();
   }

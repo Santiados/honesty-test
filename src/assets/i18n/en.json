@@ -7,6 +7,68 @@
         "registra": "Sign up",
         "ayuda": "If you have questions, you can contact us at "
     },
+    "registerpage": {
+        "title": "Sign up",
+        "hello": "Hey",
+        "t1": "This is Honesty Chat, here you can share secure and instant messages",
+        "t2": "Before chatting with people of all around the world, first take a time to sign up",
+        "name": "Name",
+        "pass": "Password",
+        "passlength": "At least 6 characters",
+        "profile": {
+            "title": "¿How do you prefer your profile?",
+            "publico": "Public",
+            "privado": "Private"
+        },
+        "register": "Sign up",
+        "nuevo": "looking for a site..."
+        
+    },
+    "homepage": {
+        "nocon": "You dont have recent chats",
+        "recentcon": "Recent chats"
+    },
+    "profilepage": {
+        "salir": "Logout",
+        "favtema": "Favourite theme",
+        "azul": "Sky Blue",
+        "verde": "Honesty Green",
+        "rojo": "Danger red",
+        "borrarperfil": "Delete my profile",
+        "segurosalir": "¿Are you sure that you want logout?",
+        "seguroborrar": "You are going to delete you account,¿Are you sure?",
+        "bien": "Nice, you stay"
+    },
+    "contactspage": {
+        "title": "My contacts",
+        "honestamigos": "Honesty is more fun with friends"
+    },
+    "addcontactpage": {
+        "title": "New contact",
+        "nanaiusuarios": "Nanai, there is no users with this name",
+        "desliza": "Remember, swipe left",
+        "unio": "He joined at: ",
+        "seguroadd": "?¿Do you want to add ",
+        "usernoadd": "User not added",
+        "useradd": "added to my contacts"
+    },
+    "chatpage":{
+        "haconectado": " has connected",
+        "hadesconectado": " has disconnected",
+        "hapasado": " has skipped you",
+        "haspasadode": "You has skipped  ",
+        "llamadade": "Incomming call of ",
+        "finllamada": "Ended call",
+        "pasarllamada": "Skip",
+        "cogerllamada": "Accept"
+    },
+    "messages": {
+        "cancel": "Cancel",
+        "momento": "One moment...",
+        "si": "Yes",
+        "si2": "Yes, come on",
+        "no": "No"
+    },
     "errors": {
         "auth/user-not-found": "There is no user record corresponding to this identifier. The user may have been deleted.",
         "auth/wrong-password": "The password is invalid",
