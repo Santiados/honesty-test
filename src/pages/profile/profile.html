@@ -35,12 +35,13 @@
         </ion-item>
       </ion-list>
     </div>
-    <ion-list>
-      <ion-item text-center>
-        <button ion-button color="danger" (tap)="deleteMyAccount()" >
-            {{ 'profilepage.borrarperfil' | translate }}
-        </button>
-      </ion-item>
-    </ion-list>
+    <ion-item text-center id="shareqr">
+      <button ion-button round color="primary" (click)="showQR()">{{ 'profilepage.compartirqr' | translate }}</button>
+    </ion-item>
+    <ion-item text-center>
+      <button ion-button color="danger" (tap)="deleteMyAccount()">
+        {{ 'profilepage.borrarperfil' | translate }}
+      </button>
+    </ion-item>
   </ion-card>
 </ion-content>

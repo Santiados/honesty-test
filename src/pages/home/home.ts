@@ -118,5 +118,9 @@ export class HomePage {
     contact.present();
   }
 
+  scanQR() {
+    
+  }
+
 }
 

@@ -37,7 +37,8 @@
         "borrarperfil": "Borrar mi perfil",
         "segurosalir": "¿Seguro quieres salir?",
         "seguroborrar": "¿Seguro quieres borrar tu cuenta?",
-        "bien": "Que bien, te quedas"
+        "bien": "Que bien, te quedas",
+        "compartirqr": "Compartir mi QR"
     },
     "contactspage": {
         "title": "Mis contactos",

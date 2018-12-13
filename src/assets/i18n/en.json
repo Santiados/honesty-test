@@ -37,7 +37,8 @@
         "borrarperfil": "Delete my profile",
         "segurosalir": "¿Are you sure that you want logout?",
         "seguroborrar": "You are going to delete you account,¿Are you sure?",
-        "bien": "Nice, you stay"
+        "bien": "Nice, you stay",
+        "compartirqr": "Share my QR"
     },
     "contactspage": {
         "title": "My contacts",

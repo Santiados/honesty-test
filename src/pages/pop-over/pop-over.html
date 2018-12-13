@@ -1,8 +1,8 @@
-<ion-list id="pop-over">
-  <ion-item>
-    Más opciones
-  </ion-item>
-  <ion-item >
-    Perfil
-  </ion-item>
-</ion-list>
+<ion-card *ngIf="data.plantilla == 'qrcode'" id="qrcode">
+  <img [src]="data.qrcode"/>
+  <ion-card-content>
+    <ion-card-title text-center>
+      Este es mi QRHONEST
+    </ion-card-title>
+  </ion-card-content>
+</ion-card>

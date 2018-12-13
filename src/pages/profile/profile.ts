@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, Platform, PopoverController } from 'ionic-angular';
 
 import { User } from '../../class/User';
 
@@ -7,6 +7,9 @@ import { UserProvider } from '../../providers/user/user';
 import { LogPage } from '../log/log';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
+
+import QRCode from 'qrcode';
+import { PopOverPage } from '../pop-over/pop-over';
 
 @IonicPage()
 @Component({
@@ -19,6 +22,7 @@ export class ProfilePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private platform: Platform,
+    private popOver: PopoverController,
     private toasCtrl: ToastController,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
@@ -107,5 +111,28 @@ export class ProfilePage {
 
   close() {
     this.navCtrl.pop();
+  }
+
+  showQR(){
+    const qr = QRCode;
+    const self = this;
+    let imgQRbase64 = '';
+    qr.toDataURL(self.user.getId(), { errorCorrectionLevel: 'H' }, function (err, url) {
+      if (url != undefined) {
+        imgQRbase64 = url;
+      }
+    });
+    let pop = this.popOver.create(PopOverPage,{
+      data: {
+        qrcode: imgQRbase64,
+        plantilla: 'qrcode',
+        user:this.user
+      }
+    },{
+      cssClass: 'qrcode'
+    });
+    pop.present({
+      animate: false
+    });
   }
 }
