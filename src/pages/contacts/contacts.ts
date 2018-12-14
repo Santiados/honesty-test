@@ -75,7 +75,6 @@ export class ContactsPage {
       }).catch((err) => {
         this.showNot(err.message);
       });
-
   }
 
   addContact() {

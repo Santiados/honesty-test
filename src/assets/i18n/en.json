@@ -26,7 +26,8 @@
     },
     "homepage": {
         "nocon": "You dont have recent chats",
-        "recentcon": "Recent chats"
+        "recentcon": "Recent chats",
+        "userfound": "Usuario encontrado"
     },
     "profilepage": {
         "salir": "Logout",
@@ -38,7 +39,8 @@
         "segurosalir": "¿Are you sure that you want logout?",
         "seguroborrar": "You are going to delete you account,¿Are you sure?",
         "bien": "Nice, you stay",
-        "compartirqr": "Share my QR"
+        "compartirqr": "Share my QR",
+        "alerttitle": "Wait"
     },
     "contactspage": {
         "title": "My contacts",
@@ -49,9 +51,9 @@
         "nanaiusuarios": "Nanai, there is no users with this name",
         "desliza": "Remember, swipe left",
         "unio": "He joined at: ",
-        "seguroadd": "?¿Do you want to add ",
+        "seguroadd": "¿Do you want to add ",
         "usernoadd": "User not added",
-        "useradd": "added to my contacts"
+        "useradd": " added to my contacts"
     },
     "chatpage":{
         "haconectado": " has connected",
@@ -61,7 +63,8 @@
         "llamadade": "Incomming call of ",
         "finllamada": "Ended call",
         "pasarllamada": "Skip",
-        "cogerllamada": "Accept"
+        "cogerllamada": "Accept",
+        "alerttitle": "Hey"
     },
     "messages": {
         "cancel": "Cancel",
@@ -75,6 +78,9 @@
         "auth/wrong-password": "The password is invalid",
         "auth/weak-password": "Password should be at least 6 characters",
         "auth/invalid-email": "El nombre de usuario contiene caracteres no válidos",
-        "auth/email-already-in-use": "This nickname is already in use by another account"
+        "auth/email-already-in-use": "This nickname is already in use by another account",
+        "codigonoadmitido": "This code is not valid here",
+        "codigousernoencontrado": "User not founded",
+        "existentcontact": "Contact already added"
     }
 }

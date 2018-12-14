@@ -26,7 +26,8 @@
     },
     "homepage": {
         "nocon": "No tienes conversaciones recientes",
-        "recentcon": "Estas son tus conversaciones recientes"
+        "recentcon": "Estas son tus conversaciones recientes",
+        "userfound": "Usuario encontrado"
     },
     "profilepage": {
         "salir": "Salir",
@@ -38,7 +39,8 @@
         "segurosalir": "¿Seguro quieres salir?",
         "seguroborrar": "¿Seguro quieres borrar tu cuenta?",
         "bien": "Que bien, te quedas",
-        "compartirqr": "Compartir mi QR"
+        "compartirqr": "Compartir mi QR",
+        "alerttitle": "Espera"
     },
     "contactspage": {
         "title": "Mis contactos",
@@ -61,7 +63,8 @@
         "llamadade": "Llamada de ",
         "finllamada": "Llamada terminada",
         "pasarllamada": "Pasar",
-        "cogerllamada": "Coger"
+        "cogerllamada": "Coger",
+        "alerttitle": "Hey"
     },
     "messages": {
         "cancel": "Cancelar",
@@ -75,6 +78,9 @@
         "auth/wrong-password": "La contraseña es invalida",
         "auth/weak-password": "La contraseña debe ser de al menos 6 caracteres",
         "auth/invalid-email": "El nombre de usuario contiene caracteres no válidos",
-        "auth/email-already-in-use": "Este nombre de usuario ya esta en uso por otra cuenta"
+        "auth/email-already-in-use": "Este nombre de usuario ya esta en uso por otra cuenta",
+        "codigonoadmitido": "Este código no esta admitido en esta aplicacion",
+        "codigousernoencontrado": "Ningún usuario encontrado",
+        "existentcontact": "Contacto ya añadido"
     }
 }

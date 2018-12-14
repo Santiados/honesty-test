@@ -60,11 +60,13 @@ export class ProfilePage {
 
   showAlert(msg, flag = null) {
     let alert = this.alertCtrl.create({
-      title: msg,
-      cssClass: 'alertUser',
+      title: this.trans('profilepage.alerttitle'),
+      message: msg,
+      cssClass: 'alertUser2',
       buttons: [
         {
           text: this.trans('messages.si'),
+          cssClass: 'si-but',
           handler: () => {
             if (flag) {
               this.userService.delete(this.user)
@@ -78,7 +80,7 @@ export class ProfilePage {
           }
         }, {
           text: this.trans('messages.no'),
-          cssClass: 'activeBut',
+          cssClass: 'no-but',
           handler: () => {
             this.showNot(this.trans('profilepage.bien'));
           }

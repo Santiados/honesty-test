@@ -126,7 +126,17 @@ export class User {
 
     addContact(db, new_contact, to) {
         return new Promise((resolve, reject) => {
-            db.child(to.id).child('contacts').push({
+            db.child(to.id).child('contacts').child(new_contact.id).on('value', data =>{
+                if(data.val()){
+                    let err = {
+                        message: "existentcontact"
+                    };
+                    reject(err);
+                }
+            }, error => {
+                if (error) reject(error)
+            });
+            db.child(to.id).child('contacts').child(new_contact.id).set({
                 id: new_contact.id,
                 username: new_contact.username
             }, error => {

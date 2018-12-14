@@ -222,11 +222,13 @@ export class ChatPage {
 
   prepareCall() {
     let alert = this.alertCtrl.create({
-      title: this.trans('chatpage.llamadade') + this.contact.getUsername(),
-      cssClass:'alertUser',
+      title: this.trans('chatpage.alerttitle'),
+      message: this.trans('chatpage.llamadade') + this.contact.getUsername(),
+      cssClass:'alertUser2',
       buttons: [
         {
           text: this.trans('chatpage.pasarllamada'),
+          cssClass: 'no-but',
           handler: () => {
             this.sendSignal('refuse');
             this.showNot(this.trans('chatpage.haspasadode') + this.contact.getUsername());
@@ -234,7 +236,7 @@ export class ChatPage {
         },
         {
           text: this.trans('chatpage.cogerllamada'),
-          cssClass: 'activeBut',
+          cssClass: 'si-but',
           handler: () => {
             this.sendSignal('accept');
             this.goVideo();

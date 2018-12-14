@@ -5,15 +5,12 @@
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
 
-
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
 // http://ionicframework.com/docs/theming/rtl-support/
 $app-direction: ltr;
 
-
 @import "ionic.globals";
-
 
 // Shared Variables
 // --------------------------------------------------
@@ -21,9 +18,6 @@ $app-direction: ltr;
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
-
-
-
 
 // Named Color Variables
 // --------------------------------------------------
@@ -33,38 +27,19 @@ $app-direction: ltr;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-  contacts:   #b92bae,
-  add-contact: #6f16c2,
-  button:     #10a9cf
-);
-
+$colors: (primary: #488aff, secondary: #32db64, danger: #f53d3d, light: #f4f4f4, dark: #222, contacts: #b92bae, add-contact: #6f16c2, button: #10a9cf);
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
-
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
 
 // App Theme
 // --------------------------------------------------
@@ -75,7 +50,6 @@ $colors: (
 
 @import "ionic.theme.default";
 
-
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
@@ -83,61 +57,103 @@ $colors: (
 
 @import "ionic.ionicons";
 
-
 // Fonts
 // --------------------------------------------------
 
 @import "roboto";
 @import "noto-sans";
 
-
 // my
 @keyframes lol {
-  0% {
-    transform: rotate(0deg);
-    opacity: 0;
-  }
+    0% {
+        transform: rotate(0deg);
+        opacity: 0;
+    }
 
-  15% {
-    transform: rotate(0.5deg);
-  }
+    15% {
+        transform: rotate(0.5deg);
+    }
 
-  30% {
-    transform: rotate(2deg);
-    opacity: 0.5;
-  }
+    30% {
+        transform: rotate(2deg);
+        opacity: 0.5;
+    }
 
-  55% {
-    transform: rotate(0.5deg);
-  }
+    55% {
+        transform: rotate(0.5deg);
+    }
 
-  70% {
-    opacity: 1;
-    transform: rotate(2deg);
-  }
+    70% {
+        opacity: 1;
+        transform: rotate(2deg);
+    }
 
-  100% {
-    transform: rotate(0deg);
-  }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 .alertUser > div {
-  border-radius: 8px !important;
-  animation-name: lol !important;
-  animation-duration: 500ms;
-  padding: 1pc 0;
+    border-radius: 8px !important;
+    animation-name: lol !important;
+    animation-duration: 500ms;
+    padding: 1pc 0;
 }
 
-.activeBut > *:first-child{
-  background: #c2c0c0 !important;
-  padding: 3px 1pc !important;
-  border-radius: 5px !important;
-  color:white !important;
+.no-but > *:first-child {
+    background: #fa2a2a !important;
 }
 
-.qrcode > div > *{
-  animation: lol !important;
-  animation-duration: 300ms !important;
-  border-radius: 8px !important;
-  padding: 5px !important;
+.si-but > *:first-child {
+  background: #1c90be !important;
+}
+
+.add-but > *:first-child {
+    background: #6f16c2 !important;
+}
+
+.chat-but > *:first-child {
+    background: #32db64 !important;
+}
+
+.qrcode > div > * {
+    animation: lol !important;
+    animation-duration: 300ms !important;
+    border-radius: 8px !important;
+    padding: 5px !important;
+}
+
+.alertUser2 > div {
+    border-radius: 8px !important;
+    animation-name: lol !important;
+    animation-duration: 500ms;
+    padding: 1pc 0;
+    min-width: 90% !important;
+    > div:first-child {
+      text-align: center;
+    }
+    > div:nth-of-type(2) {
+        text-align: center;
+        font-size: 1pc;
+        font-weight: 400;
+    }
+
+    > div:last-child {
+        display: flex !important;
+        justify-content: space-between !important;
+        *:first-child, *:last-child {
+            height: 2pc;
+            width: 5pc;
+            padding: 2pc 2pc;
+            border-radius: 2pc;
+            display: flex !important;
+            justify-content: center !important;
+            box-shadow: 0px 1px 4px 0px grey;
+            color:white;
+            *:first-child {
+              position: absolute;
+              top: 0;
+            }
+        }
+    }
 }
