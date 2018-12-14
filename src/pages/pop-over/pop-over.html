@@ -6,3 +6,7 @@
     </ion-card-title>
   </ion-card-content>
 </ion-card>
+
+<ion-list *ngIf="data.plantilla == 'useroptions'" id="useroptions"  >
+  <ion-item *ngIf="!added" >Añadir usuario</ion-item>
+</ion-list>

@@ -5,6 +5,7 @@ import { User } from '../../class/User';
 
 import { UserProvider } from '../../providers/user/user';
 import { TranslateService } from '@ngx-translate/core';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -65,11 +66,11 @@ export class AddContactPage {
           handler: () =>{
             this.userService.addContact(user,this.user)
             .then((result) => {
+              this.showNot(user.username + this.trans('addcontactpage.useradd'));
               this._USERS.splice(index,1);
             }).catch((err) => {
-              this.showNot(err.message);
+              this.showNot(this.trans(err.message));
             });
-            this.showNot(user.username + this.trans('addcontactpage.useradd'));
           }
         }
       ]
@@ -78,7 +79,13 @@ export class AddContactPage {
   }
 
   close(){
-    this.viewCtrl.dismiss();
+    this.navCtrl.setRoot(HomePage,{
+      data: this.user
+    },{
+      animate:true,
+      direction: 'back'
+
+    });
   }
 
   showNot(msg){

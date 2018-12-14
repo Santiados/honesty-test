@@ -27,9 +27,9 @@ export class User {
         } else {
             this.theme = 'secondary';
         }
-        if(deleted){
+        if (deleted) {
             this.deleted = deleted;
-        }else {
+        } else {
             this.deleted = 0;
         }
         if (creation) {
@@ -87,10 +87,10 @@ export class User {
     setTheme(theme) {
         this.state = theme;
     }
-    getDeleted(){
+    getDeleted() {
         return this.deleted;
     }
-    setDeleted(deleted){
+    setDeleted(deleted) {
         this.deleted = deleted;
     }
 
@@ -126,15 +126,13 @@ export class User {
 
     addContact(db, new_contact, to) {
         return new Promise((resolve, reject) => {
-            db.child(to.id).child('contacts').child(new_contact.id).on('value', data =>{
-                if(data.val()){
+            to.contacts.forEach(element => {
+                if (element.id == new_contact.id) {
                     let err = {
                         message: "existentcontact"
                     };
                     reject(err);
                 }
-            }, error => {
-                if (error) reject(error)
             });
             db.child(to.id).child('contacts').child(new_contact.id).set({
                 id: new_contact.id,
@@ -168,8 +166,8 @@ export class User {
                 data.forEach(element => {
                     let con = element.val()
                     if (con.username.toLowerCase().includes(search.toLowerCase()) && con.state == 'publico' && con.username != who_search.getUsername()) {
-                        let fecha = (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth()+1) + '/' + (new Date(con.creation).getFullYear());
-                        let user = new User(con.id, con.username, con.email, con.state, con.theme,con.deleted, fecha);
+                        let fecha = (new Date(con.creation).getDate()) + '/' + (new Date(con.creation).getMonth() + 1) + '/' + (new Date(con.creation).getFullYear());
+                        let user = new User(con.id, con.username, con.email, con.state, con.theme, con.deleted, fecha);
                         aux.push(user);
                     }
                     if (who_search.getContacts().length > 0) {
@@ -189,17 +187,17 @@ export class User {
         });
     }
 
-    delete(dbSessions,dbUsers,user){
-        return new Promise((resolve,reject)=>{
-            dbSessions.on('value', data =>{
+    delete(dbSessions, dbUsers, user,msg) {
+        return new Promise((resolve, reject) => {
+            dbSessions.on('value', data => {
                 data.forEach(element => {
                     let el = element.val();
                     console.log(el.id)
-                    if((el.id_user1 == user.getId() || el.id_user2 == user.getId()) && !el.user_out.includes(user.getUsername())){
+                    if ((el.id_user1 == user.getId() || el.id_user2 == user.getId()) && !el.user_out.includes(user.getUsername())) {
                         console.log(user.getId())
                         dbSessions.child(el.id).update({
                             user_out: user.getUsername(),
-                            last_msg: user.getUsername() + ' ha decidido marcharse',
+                            last_msg: user.getUsername() + msg,
                             last_msg_time: new Date().toJSON()
                         });
                     }
@@ -209,7 +207,7 @@ export class User {
                 });
                 resolve('ok');
             }, error => {
-                if(error) reject(error);
+                if (error) reject(error);
             });
         });
     }

@@ -40,7 +40,8 @@
         "seguroborrar": "You are going to delete you account,¿Are you sure?",
         "bien": "Nice, you stay",
         "compartirqr": "Share my QR",
-        "alerttitle": "Wait"
+        "alerttitle": "Wait",
+        "deluser": " has left from Honesty"
     },
     "contactspage": {
         "title": "My contacts",
@@ -81,6 +82,7 @@
         "auth/email-already-in-use": "This nickname is already in use by another account",
         "codigonoadmitido": "This code is not valid here",
         "codigousernoencontrado": "User not founded",
-        "existentcontact": "Contact already added"
+        "existentcontact": "Contact already added",
+        "userdel": "This account has been marked as deleted, please contact with technical service to recover it"
     }
 }

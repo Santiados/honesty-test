@@ -17,11 +17,16 @@ import { User } from '../../class/User';
 export class PopOverPage {
   user: User;
   data;
+  added: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    if(this.navParams.get('data')){
+    if (this.navParams.get('data')) {
       this.data = this.navParams.get('data');
-      this.user = this.navParams.get('data.user');
+      this.user = this.navParams.get('data').user;
+      if (this.data.plantilla == 'useroptions') {
+        
+      }
     }
+
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad PopOverPage');

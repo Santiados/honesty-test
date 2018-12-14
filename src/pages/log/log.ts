@@ -60,15 +60,14 @@ export class LogPage {
         .then((result: User) => {
           this.showLoader();
           this.storage.set('mio', this.user);
-          this.navCtrl.push(HomePage, {
+          this.navCtrl.setRoot(HomePage, {
             data: result
+          },{
+            animate: true,
+            direction:'forward'
           });
         }).catch((err) => {
-          this.translate.get('errors.' + err.code).subscribe(
-            value => {
-              this.showNot(value);
-            }
-          );
+          this.showNot(this.trans('errors.' + err.code));
         });
     }
   }

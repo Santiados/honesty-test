@@ -16,6 +16,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { ProfilePage } from '../profile/profile';
 import { TranslateService } from '@ngx-translate/core';
 
+import * as firebase from 'firebase/app'
+
 import { BarcodeScanner, BarcodeScanResult, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 @Component({
@@ -27,6 +29,7 @@ export class HomePage {
   user: User;
   _SESSIONS = [];
   foundUser: User = null;
+  usersRF = firebase.database().ref('users');
   constructor(
     public navCtrl: NavController,
     private paramCtrl: NavParams,
@@ -57,6 +60,9 @@ export class HomePage {
         }
       }, 500);
     });
+  }
+
+  ionViewDidLoad(){
   }
 
 
@@ -128,17 +134,17 @@ export class HomePage {
       .then((data: BarcodeScanResult) => {
         console.log(data.format);
         if (data.format == 'QR_CODE') {
-          this.db.object('users/' + data.text).valueChanges()
-            .subscribe((d: any) => {
-              if (data) {
-                this.foundUser = new User(d.id, d.username, d.email, d.state, d.theme, d.deleted, d.creation);
-                setTimeout(() => {
-                  this.showAlert(this.foundUser);
-                }, 500);
-              } else {
-                this.showNot(this.trans('errors.codigousernoencontrado'));
-              }
-            });
+          this.db.database.ref('users').child(data.text).once('value', (u:any) => {
+            if (u) {
+              let d = u.val();
+              this.foundUser = new User(d.id, d.username, d.email, d.state, d.theme, d.deleted, d.creation);
+              setTimeout(() => {
+                this.showAlert(this.foundUser);
+              }, 500);
+            } else {
+              this.showNot(this.trans('errors.codigousernoencontrado'));
+            }
+          });
         } else {
           this.showNot(this.trans('errors.codigonoadmitido'));
         }

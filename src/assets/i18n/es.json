@@ -40,7 +40,8 @@
         "seguroborrar": "¿Seguro quieres borrar tu cuenta?",
         "bien": "Que bien, te quedas",
         "compartirqr": "Compartir mi QR",
-        "alerttitle": "Espera"
+        "alerttitle": "Espera",
+        "deluser": " se ha marchado de Honesty"
     },
     "contactspage": {
         "title": "Mis contactos",
@@ -81,6 +82,7 @@
         "auth/email-already-in-use": "Este nombre de usuario ya esta en uso por otra cuenta",
         "codigonoadmitido": "Este código no esta admitido en esta aplicacion",
         "codigousernoencontrado": "Ningún usuario encontrado",
-        "existentcontact": "Contacto ya añadido"
+        "existentcontact": "Contacto ya añadido",
+        "userdel": "Esta cuenta ha sido marcada como eliminada, debe contactar con el servicio técnico para recuperarla"
     }
 }

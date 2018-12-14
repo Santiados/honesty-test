@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Content, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Content, ModalController, AlertController, PopoverController } from 'ionic-angular';
 
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -25,6 +25,7 @@ import { UserProvider } from '../../providers/user/user';
 import { map } from 'rxjs/operators';
 import { VideoChatPage } from '../video-chat/video-chat';
 import { TranslateService } from '@ngx-translate/core';
+import { PopOverPage } from '../pop-over/pop-over';
 
 declare var OT: any;
 
@@ -52,6 +53,7 @@ export class ChatPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private popOver: PopoverController,
     private toasCtrl: ToastController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -277,6 +279,22 @@ export class ChatPage {
       position: 'top'
     });
     toas.present();
+  }
+
+  showMore(){
+    console.log('more');
+    let pop = this.popOver.create(PopOverPage,{
+      data: {
+        plantilla: 'useroptions',
+        user:this.user,
+        contact: this.contact
+      }
+    },{
+      cssClass: 'useroptions'
+    });
+    pop.present({
+      animate: false
+    });
   }
 
   trans(msg) {

@@ -49,9 +49,9 @@ export class ProfilePage {
     });
     load.onDidDismiss(() => {
       this.storage.remove('mio');
-      this.navCtrl.setRoot(LogPage);
-      this.navCtrl.getViews().forEach((e)=>{
-        console.log(e.name)
+      this.navCtrl.setRoot(LogPage,{},{
+        animate: true,
+        direction: 'back'
       });
     })
     load.present();
@@ -69,7 +69,7 @@ export class ProfilePage {
           cssClass: 'si-but',
           handler: () => {
             if (flag) {
-              this.userService.delete(this.user)
+              this.userService.delete(this.user,this.trans('profilepage.deluser'))
                 .then((result) => {
 
                 }).catch((err) => {

@@ -44,8 +44,8 @@ export class UserProvider {
     return this.user.addContact(this.userRF,new_contact,to);
   }
 
-  delete(user){
-    return user.delete(this.sessionRF,this.userRF,user);
+  delete(user,msg){
+    return user.delete(this.sessionRF,this.userRF,user,msg);
   }
 
 }
