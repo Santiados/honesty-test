@@ -140,7 +140,7 @@ $colors: (primary: #488aff, secondary: #32db64, danger: #f53d3d, light: #f4f4f4,
 
     > div:last-child {
         display: flex !important;
-        justify-content: space-between !important;
+        justify-content: space-around !important;
         *:first-child, *:last-child {
             height: 2pc;
             width: 5pc;

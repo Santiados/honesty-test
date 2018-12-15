@@ -27,7 +27,9 @@
     "homepage": {
         "nocon": "You dont have recent chats",
         "recentcon": "Recent chats",
-        "userfound": "Usuario encontrado"
+        "userfound": "Founded user",
+        "aniadir": "Add",
+        "chat": "chat"
     },
     "profilepage": {
         "salir": "Logout",

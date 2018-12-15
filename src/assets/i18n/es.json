@@ -27,7 +27,9 @@
     "homepage": {
         "nocon": "No tienes conversaciones recientes",
         "recentcon": "Estas son tus conversaciones recientes",
-        "userfound": "Usuario encontrado"
+        "userfound": "Usuario encontrado",
+        "aniadir": "Añadir",
+        "chat": "chat"
     },
     "profilepage": {
         "salir": "Salir",

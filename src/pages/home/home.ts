@@ -160,14 +160,14 @@ export class HomePage {
       message: contact.getUsername(),
       buttons: [
         {
-          text: 'chat',
+          text: this.trans('homepage.chat'),
           cssClass: 'chat-but',
           handler: () => {
             this.createChatRoom(this.user, contact);
           }
         },
         {
-          text: 'Añadir',
+          text: this.trans('homepage.aniadir'),
           cssClass: 'add-but',
           handler: () => {
             this.userService.addContact(contact, this.user)
